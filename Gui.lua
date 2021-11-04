@@ -339,7 +339,7 @@ do
 				Image = "rbxassetid://" .. tostring(icon),
 				ImageColor3 = themes.TextColor,
 				ImageTransparency = 0.64,
-				ScaleType = Enum.ScaleType.Fit
+				
 			}) or {}
 		})
 		
