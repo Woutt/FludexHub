@@ -1,9 +1,18 @@
-local a = game:GetService("Players").LocalPlayer:GetMouse()
-local b = game:GetService("UserInputService")
-local c = TweenInfo.new
-local d = {}
-local e = {}
-local f = {
+if library == nil then
+    local a = {}
+    for b = 1, math.random(10, 20) do
+        a[b] = string.char(math.random(32, 126))
+    end
+    getgenv().GetGuiName = table.concat(a)
+end
+local c = game:GetService("Players").LocalPlayer:GetMouse()
+local d = game:GetService("UserInputService")
+local e = game:GetService("RunService")
+local f = game:GetService("TweenService")
+local g = TweenInfo.new
+local h = {}
+local i = {}
+local j = {
     Background = Color3.fromRGB(24, 24, 24),
     Glow = Color3.fromRGB(0, 0, 0),
     Accent = Color3.fromRGB(10, 10, 10),
@@ -11,172 +20,165 @@ local f = {
     DarkContrast = Color3.fromRGB(14, 14, 14),
     TextColor = Color3.fromRGB(255, 255, 255)
 }
-if GetGuiName == nil then
-    local g = {}
-    for h = 1, math.random(10, 20) do
-        g[h] = string.char(math.random(32, 126))
-    end
-    getgenv().GetGuiName = table.concat(g)
-end
 do
-    function d:Create(i, j, k)
-        local l = Instance.new(i)
-        for h, m in pairs(j or {}) do
-            l[h] = m
-            if typeof(m) == "Color3" then
-                local n = d:Find(f, m)
-                if n then
-                    e[n] = e[n] or {}
-                    e[n][h] = e[n][h] or setmetatable({}, {_mode = "k"})
-                    table.insert(e[n][h], l)
+    function h:Create(k, l, m)
+        local n = Instance.new(k)
+        for b, o in pairs(l or {}) do
+            n[b] = o
+            if typeof(o) == "Color3" then
+                local p = h:Find(j, o)
+                if p then
+                    i[p] = i[p] or {}
+                    i[p][b] = i[p][b] or setmetatable({}, {_mode = "k"})
+                    table.insert(i[p][b], n)
                 end
             end
         end
-        for h, o in pairs(k or {}) do
-            o.Parent = l
+        for b, q in pairs(m or {}) do
+            q.Parent = n
         end
-        return l
+        return n
     end
-    function d:Tween(i, j, p, ...)
-        game:GetService("TweenService"):Create(i, c(p, ...), j):Play()
+    function h:Tween(k, l, r, ...)
+        f:Create(k, g(r, ...), l):Play()
     end
-    function d:Wait()
-        game:GetService("RunService").RenderStepped:Wait()
+    function h:Wait()
+        e.RenderStepped:Wait()
         return true
     end
-    function d:Find(table, q)
-        for h, m in pairs(table) do
-            if m == q then
-                return h
+    function h:Find(table, s)
+        for b, o in pairs(table) do
+            if o == s then
+                return b
             end
         end
     end
-    function d:Sort(r, s)
-        local t = {}
-        r = r:lower()
-        if r == "" then
-            return s
+    function h:Sort(t, u)
+        local v = {}
+        t = t:lower()
+        if t == "" then
+            return u
         end
-        for h, q in pairs(s) do
-            if tostring(q):lower():find(r) then
-                table.insert(t, q)
+        for b, s in pairs(u) do
+            if tostring(s):lower():find(t) then
+                table.insert(v, s)
             end
         end
-        return t
+        return v
     end
-    function d:Pop(l, u)
-        local v = l:Clone()
-        v.AnchorPoint = Vector2.new(0.5, 0.5)
-        v.Size = v.Size - UDim2.new(0, u, 0, u)
-        v.Position = UDim2.new(0.5, 0, 0.5, 0)
-        v.Parent = l
-        v:ClearAllChildren()
-        l.ImageTransparency = 1
-        d:Tween(v, {Size = l.Size}, 0.2)
+    function h:Pop(n, w)
+        local x = n:Clone()
+        x.AnchorPoint = Vector2.new(0.5, 0.5)
+        x.Size = x.Size - UDim2.new(0, w, 0, w)
+        x.Position = UDim2.new(0.5, 0, 0.5, 0)
+        x.Parent = n
+        x:ClearAllChildren()
+        n.ImageTransparency = 1
+        h:Tween(x, {Size = n.Size}, 0.2)
         coroutine.wrap(
             function()
                 wait(0.2)
-                l.ImageTransparency = 0
-                v:Destroy()
+                n.ImageTransparency = 0
+                x:Destroy()
             end
         )()
-        return v
+        return x
     end
-    function d:InitializeKeybind()
+    function h:InitializeKeybind()
         self.keybinds = {}
         self.ended = {}
-        b.InputBegan:Connect(
-            function(w)
-                if self.keybinds[w.KeyCode] then
-                    for h, x in pairs(self.keybinds[w.KeyCode]) do
-                        x()
+        d.InputBegan:Connect(
+            function(y)
+                if self.keybinds[y.KeyCode] then
+                    for b, z in pairs(self.keybinds[y.KeyCode]) do
+                        z()
                     end
                 end
             end
         )
-        b.InputEnded:Connect(
-            function(w)
-                if w.UserInputType == Enum.UserInputType.MouseButton1 then
-                    for h, y in pairs(self.ended) do
-                        y()
+        d.InputEnded:Connect(
+            function(y)
+                if y.UserInputType == Enum.UserInputType.MouseButton1 then
+                    for b, A in pairs(self.ended) do
+                        A()
                     end
                 end
             end
         )
     end
-    function d:BindToKey(w, y)
-        self.keybinds[w] = self.keybinds[w] or {}
-        table.insert(self.keybinds[w], y)
+    function h:BindToKey(y, A)
+        self.keybinds[y] = self.keybinds[y] or {}
+        table.insert(self.keybinds[y], A)
         return {UnBind = function()
-                for h, x in pairs(self.keybinds[w]) do
-                    if x == y then
-                        table.remove(self.keybinds[w], h)
+                for b, z in pairs(self.keybinds[y]) do
+                    if z == A then
+                        table.remove(self.keybinds[y], b)
                     end
                 end
             end}
     end
-    function d:KeyPressed()
-        local w = b.InputBegan:Wait()
-        while w.UserInputType ~= Enum.UserInputType.Keyboard do
-            w = b.InputBegan:Wait()
+    function h:KeyPressed()
+        local y = d.InputBegan:Wait()
+        while y.UserInputType ~= Enum.UserInputType.Keyboard do
+            y = d.InputBegan:Wait()
         end
         wait()
-        return w
+        return y
     end
-    function d:DraggingEnabled(z, A)
-        A = A or z
-        local B = false
-        local C, D, E
-        z.InputBegan:Connect(
-            function(b)
-                if b.UserInputType == Enum.UserInputType.MouseButton1 then
-                    B = true
-                    D = b.Position
-                    E = A.Position
-                    b.Changed:Connect(
+    function h:DraggingEnabled(B, C)
+        C = C or B
+        local D = false
+        local E, F, G
+        B.InputBegan:Connect(
+            function(d)
+                if d.UserInputType == Enum.UserInputType.MouseButton1 then
+                    D = true
+                    F = d.Position
+                    G = C.Position
+                    d.Changed:Connect(
                         function()
-                            if b.UserInputState == Enum.UserInputState.End then
-                                B = false
+                            if d.UserInputState == Enum.UserInputState.End then
+                                D = false
                             end
                         end
                     )
                 end
             end
         )
-        z.InputChanged:Connect(
-            function(b)
-                if b.UserInputType == Enum.UserInputType.MouseMovement then
-                    C = b
+        B.InputChanged:Connect(
+            function(d)
+                if d.UserInputType == Enum.UserInputType.MouseMovement then
+                    E = d
                 end
             end
         )
-        b.InputChanged:Connect(
-            function(b)
-                if b == C and B then
-                    local F = b.Position - D
-                    A.Position = UDim2.new(E.X.Scale, E.X.Offset + F.X, E.Y.Scale, E.Y.Offset + F.Y)
+        d.InputChanged:Connect(
+            function(d)
+                if d == E and D then
+                    local H = d.Position - F
+                    C.Position = UDim2.new(G.X.Scale, G.X.Offset + H.X, G.Y.Scale, G.Y.Offset + H.Y)
                 end
             end
         )
     end
-    function d:DraggingEnded(y)
-        table.insert(self.ended, y)
+    function h:DraggingEnded(A)
+        table.insert(self.ended, A)
     end
 end
-local G = {}
-local H = {}
+local library = {}
 local I = {}
+local J = {}
 do
-    G.__index = G
-    H.__index = H
+    library.__index = library
     I.__index = I
-    function G.new(J)
-        local K =
-            d:Create(
+    J.__index = J
+    function library.new(K)
+        local L =
+            h:Create(
             "ScreenGui",
             {Name = GetGuiName, Parent = game:GetService("CoreGui")},
             {
-                d:Create(
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "Main",
@@ -184,12 +186,12 @@ do
                         Position = UDim2.new(0.25, 0, 0.052435593, 0),
                         Size = UDim2.new(0, 511, 0, 428),
                         Image = "rbxassetid://4641149554",
-                        ImageColor3 = f.Background,
+                        ImageColor3 = j.Background,
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(4, 4, 296, 296)
                     },
                     {
-                        d:Create(
+                        h:Create(
                             "ImageLabel",
                             {
                                 Name = "Glow",
@@ -198,12 +200,12 @@ do
                                 Size = UDim2.new(1, 30, 1, 30),
                                 ZIndex = 0,
                                 Image = "rbxassetid://5028857084",
-                                ImageColor3 = f.Glow,
+                                ImageColor3 = j.Glow,
                                 ScaleType = Enum.ScaleType.Slice,
                                 SliceCenter = Rect.new(24, 24, 276, 276)
                             }
                         ),
-                        d:Create(
+                        h:Create(
                             "ImageLabel",
                             {
                                 Name = "Pages",
@@ -213,12 +215,12 @@ do
                                 Size = UDim2.new(0, 126, 1, -38),
                                 ZIndex = 3,
                                 Image = "rbxassetid://5012534273",
-                                ImageColor3 = f.DarkContrast,
+                                ImageColor3 = j.DarkContrast,
                                 ScaleType = Enum.ScaleType.Slice,
                                 SliceCenter = Rect.new(4, 4, 296, 296)
                             },
                             {
-                                d:Create(
+                                h:Create(
                                     "ScrollingFrame",
                                     {
                                         Name = "Pages_Container",
@@ -230,7 +232,7 @@ do
                                         ScrollBarThickness = 0
                                     },
                                     {
-                                        d:Create(
+                                        h:Create(
                                             "UIListLayout",
                                             {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 10)}
                                         )
@@ -238,7 +240,7 @@ do
                                 )
                             }
                         ),
-                        d:Create(
+                        h:Create(
                             "ImageLabel",
                             {
                                 Name = "TopBar",
@@ -247,12 +249,12 @@ do
                                 Size = UDim2.new(1, 0, 0, 38),
                                 ZIndex = 5,
                                 Image = "rbxassetid://4595286933",
-                                ImageColor3 = f.Accent,
+                                ImageColor3 = j.Accent,
                                 ScaleType = Enum.ScaleType.Slice,
                                 SliceCenter = Rect.new(4, 4, 296, 296)
                             },
                             {
-                                d:Create(
+                                h:Create(
                                     "TextLabel",
                                     {
                                         Name = "Title",
@@ -262,8 +264,8 @@ do
                                         Size = UDim2.new(1, -46, 0, 16),
                                         ZIndex = 5,
                                         Font = Enum.Font.GothamBold,
-                                        Text = J,
-                                        TextColor3 = f.TextColor,
+                                        Text = K,
+                                        TextColor3 = j.TextColor,
                                         TextSize = 14,
                                         TextXAlignment = Enum.TextXAlignment.Left
                                     }
@@ -274,17 +276,17 @@ do
                 )
             }
         )
-        d:InitializeKeybind()
-        d:DraggingEnabled(K.Main.TopBar, K.Main)
-        return setmetatable({container = K, pagesContainer = K.Main.Pages.Pages_Container, pages = {}}, G)
+        h:InitializeKeybind()
+        h:DraggingEnabled(L.Main.TopBar, L.Main)
+        return setmetatable({container = L, pagesContainer = L.Main.Pages.Pages_Container, pages = {}}, library)
     end
-    function H.new(G, J, L)
-        local M =
-            d:Create(
+    function I.new(library, K, M)
+        local N =
+            h:Create(
             "TextButton",
             {
-                Name = J,
-                Parent = G.pagesContainer,
+                Name = K,
+                Parent = library.pagesContainer,
                 BackgroundTransparency = 1,
                 BorderSizePixel = 0,
                 Size = UDim2.new(1, 0, 0, 26),
@@ -295,7 +297,7 @@ do
                 TextSize = 14
             },
             {
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -305,15 +307,15 @@ do
                         Size = UDim2.new(0, 76, 1, 0),
                         ZIndex = 3,
                         Font = Enum.Font.Gotham,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextTransparency = 0.65,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                L and
-                    d:Create(
+                M and
+                    h:Create(
                         "ImageLabel",
                         {
                             Name = "Icon",
@@ -322,20 +324,20 @@ do
                             Position = UDim2.new(0, 12, 0.5, 0),
                             Size = UDim2.new(0, 16, 0, 16),
                             ZIndex = 3,
-                            Image = "rbxassetid://" .. tostring(L),
-                            ImageColor3 = f.TextColor,
+                            Image = "rbxassetid://" .. tostring(M),
+                            ImageColor3 = j.TextColor,
                             ImageTransparency = 0.64
                         }
                     ) or
                     {}
             }
         )
-        local K =
-            d:Create(
+        local L =
+            h:Create(
             "ScrollingFrame",
             {
-                Name = J,
-                Parent = G.container.Main,
+                Name = K,
+                Parent = library.container.Main,
                 Active = true,
                 BackgroundTransparency = 1,
                 BorderSizePixel = 0,
@@ -343,31 +345,31 @@ do
                 Size = UDim2.new(1, -142, 1, -56),
                 CanvasSize = UDim2.new(0, 0, 0, 466),
                 ScrollBarThickness = 3,
-                ScrollBarImageColor3 = f.DarkContrast,
+                ScrollBarImageColor3 = j.DarkContrast,
                 Visible = false
             },
-            {d:Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 10)})}
+            {h:Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 10)})}
         )
-        return setmetatable({library = G, container = K, button = M, sections = {}}, H)
+        return setmetatable({library = library, container = L, button = N, sections = {}}, I)
     end
-    function I.new(H, J)
-        local K =
-            d:Create(
+    function J.new(I, K)
+        local L =
+            h:Create(
             "ImageLabel",
             {
-                Name = J,
-                Parent = H.container,
+                Name = K,
+                Parent = I.container,
                 BackgroundTransparency = 1,
                 Size = UDim2.new(1, -10, 0, 28),
                 ZIndex = 2,
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.LightContrast,
+                ImageColor3 = j.LightContrast,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(4, 4, 296, 296),
                 ClipsDescendants = true
             },
             {
-                d:Create(
+                h:Create(
                     "Frame",
                     {
                         Name = "Container",
@@ -378,7 +380,7 @@ do
                         Size = UDim2.new(1, -16, 1, -16)
                     },
                     {
-                        d:Create(
+                        h:Create(
                             "TextLabel",
                             {
                                 Name = "Title",
@@ -386,94 +388,94 @@ do
                                 Size = UDim2.new(1, 0, 0, 20),
                                 ZIndex = 2,
                                 Font = Enum.Font.GothamSemibold,
-                                Text = J,
-                                TextColor3 = f.TextColor,
+                                Text = K,
+                                TextColor3 = j.TextColor,
                                 TextSize = 12,
                                 TextXAlignment = Enum.TextXAlignment.Left,
                                 TextTransparency = 1
                             }
                         ),
-                        d:Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4)})
+                        h:Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4)})
                     }
                 )
             }
         )
         return setmetatable(
-            {page = H, container = K.Container, colorpickers = {}, modules = {}, binds = {}, lists = {}},
-            I
+            {page = I, container = L.Container, colorpickers = {}, modules = {}, binds = {}, lists = {}},
+            J
         )
     end
-    function G:addPage(...)
-        local H = H.new(self, ...)
-        local M = H.button
-        table.insert(self.pages, H)
-        M.MouseButton1Click:Connect(
+    function library:addPage(...)
+        local I = I.new(self, ...)
+        local N = I.button
+        table.insert(self.pages, I)
+        N.MouseButton1Click:Connect(
             function()
-                self:SelectPage(H, true)
+                self:SelectPage(I, true)
             end
         )
-        return H
-    end
-    function H:addSection(...)
-        local I = I.new(self, ...)
-        table.insert(self.sections, I)
         return I
     end
-    function G:setTheme(n, N)
-        f[n] = N
-        for O, e in pairs(e[n]) do
-            for h, l in pairs(e) do
-                if not l.Parent or l.Name == "Button" and l.Parent.Name == "ColorPicker" then
-                    e[h] = nil
+    function I:addSection(...)
+        local J = J.new(self, ...)
+        table.insert(self.sections, J)
+        return J
+    end
+    function library:setTheme(p, O)
+        j[p] = O
+        for P, i in pairs(i[p]) do
+            for b, n in pairs(i) do
+                if not n.Parent or n.Name == "Button" and n.Parent.Name == "ColorPicker" then
+                    i[b] = nil
                 else
-                    l[O] = N
+                    n[P] = O
                 end
             end
         end
     end
-    function G:getTheme(n)
-        if e[n] then
-            for O, e in pairs(e[n]) do
-                for h, l in pairs(e) do
-                    if not l.Parent or l.Name == "Button" and l.Parent.Name == "ColorPicker" then
-                        e[h] = nil
+    function library:getTheme(p)
+        if i[p] then
+            for P, i in pairs(i[p]) do
+                for b, n in pairs(i) do
+                    if not n.Parent or n.Name == "Button" and n.Parent.Name == "ColorPicker" then
+                        i[b] = nil
                     else
-                        return l[O]
+                        return n[P]
                     end
                 end
             end
         end
     end
-    function G:toggle()
+    function library:toggle()
         if self.toggling then
             return
         end
         self.toggling = true
-        local K = self.container.Main
-        local P = K.TopBar
+        local L = self.container.Main
+        local Q = L.TopBar
         if self.position then
-            d:Tween(K, {Size = UDim2.new(0, 511, 0, 428), Position = self.position}, 0.2)
+            h:Tween(L, {Size = UDim2.new(0, 511, 0, 428), Position = self.position}, 0.2)
             wait(0.2)
-            d:Tween(P, {Size = UDim2.new(1, 0, 0, 38)}, 0.2)
+            h:Tween(Q, {Size = UDim2.new(1, 0, 0, 38)}, 0.2)
             wait(0.2)
-            K.ClipsDescendants = false
+            L.ClipsDescendants = false
             self.position = nil
         else
-            self.position = K.Position
-            K.ClipsDescendants = true
-            d:Tween(P, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
+            self.position = L.Position
+            L.ClipsDescendants = true
+            h:Tween(Q, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
             wait(0.2)
-            d:Tween(K, {Size = UDim2.new(0, 511, 0, 0), Position = self.position + UDim2.new(0, 0, 0, 428)}, 0.2)
+            h:Tween(L, {Size = UDim2.new(0, 511, 0, 0), Position = self.position + UDim2.new(0, 0, 0, 428)}, 0.2)
             wait(0.2)
         end
         self.toggling = false
     end
-    function G:Notify(J, Q, y)
+    function library:Notify(K, R, A)
         if self.activeNotification then
             self.activeNotification = self.activeNotification()
         end
-        local R =
-            d:Create(
+        local S =
+            h:Create(
             "ImageLabel",
             {
                 Name = "Notification",
@@ -481,25 +483,25 @@ do
                 BackgroundTransparency = 1,
                 Size = UDim2.new(0, 200, 0, 60),
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.Background,
+                ImageColor3 = j.Background,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(4, 4, 296, 296),
                 ZIndex = 3,
                 ClipsDescendants = true
             },
             {
-                d:Create(
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "Flash",
                         Size = UDim2.new(1, 0, 1, 0),
                         BackgroundTransparency = 1,
                         Image = "rbxassetid://4641149554",
-                        ImageColor3 = f.TextColor,
+                        ImageColor3 = j.TextColor,
                         ZIndex = 5
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "Glow",
@@ -508,12 +510,12 @@ do
                         Size = UDim2.new(1, 30, 1, 30),
                         ZIndex = 2,
                         Image = "rbxassetid://5028857084",
-                        ImageColor3 = f.Glow,
+                        ImageColor3 = j.Glow,
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(24, 24, 276, 276)
                     }
                 ),
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -522,12 +524,12 @@ do
                         Size = UDim2.new(1, -40, 0, 16),
                         ZIndex = 4,
                         Font = Enum.Font.GothamSemibold,
-                        TextColor3 = f.TextColor,
+                        TextColor3 = j.TextColor,
                         TextSize = 14.000,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Text",
@@ -536,12 +538,12 @@ do
                         Size = UDim2.new(1, -40, 0, 16),
                         ZIndex = 4,
                         Font = Enum.Font.Gotham,
-                        TextColor3 = f.TextColor,
+                        TextColor3 = j.TextColor,
                         TextSize = 12.000,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageButton",
                     {
                         Name = "Accept",
@@ -549,11 +551,11 @@ do
                         Position = UDim2.new(1, -26, 0, 8),
                         Size = UDim2.new(0, 16, 0, 16),
                         Image = "rbxassetid://5012538259",
-                        ImageColor3 = f.TextColor,
+                        ImageColor3 = j.TextColor,
                         ZIndex = 4
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageButton",
                     {
                         Name = "Decline",
@@ -561,67 +563,67 @@ do
                         Position = UDim2.new(1, -26, 1, -24),
                         Size = UDim2.new(0, 16, 0, 16),
                         Image = "rbxassetid://5012538583",
-                        ImageColor3 = f.TextColor,
+                        ImageColor3 = j.TextColor,
                         ZIndex = 4
                     }
                 )
             }
         )
-        d:DraggingEnabled(R)
-        J = J or "Notification"
-        Q = Q or ""
-        R.Title.Text = J
-        R.Text.Text = Q
-        local S = 10
-        local T = game:GetService("TextService"):GetTextSize(Q, 12, Enum.Font.Gotham, Vector2.new(math.huge, 16))
-        R.Position = G.lastNotification or UDim2.new(0, S, 1, -(R.AbsoluteSize.Y + S))
-        R.Size = UDim2.new(0, 0, 0, 60)
-        d:Tween(R, {Size = UDim2.new(0, T.X + 70, 0, 60)}, 0.2)
+        h:DraggingEnabled(S)
+        K = K or "Notification"
+        R = R or ""
+        S.Title.Text = K
+        S.Text.Text = R
+        local T = 10
+        local U = game:GetService("TextService"):GetTextSize(R, 12, Enum.Font.Gotham, Vector2.new(math.huge, 16))
+        S.Position = library.lastNotification or UDim2.new(0, T, 1, -(S.AbsoluteSize.Y + T))
+        S.Size = UDim2.new(0, 0, 0, 60)
+        h:Tween(S, {Size = UDim2.new(0, U.X + 70, 0, 60)}, 0.2)
         wait(0.2)
-        R.ClipsDescendants = false
-        d:Tween(R.Flash, {Size = UDim2.new(0, 0, 0, 60), Position = UDim2.new(1, 0, 0, 0)}, 0.2)
-        local U = true
-        local V = function()
-            if not U then
+        S.ClipsDescendants = false
+        h:Tween(S.Flash, {Size = UDim2.new(0, 0, 0, 60), Position = UDim2.new(1, 0, 0, 0)}, 0.2)
+        local V = true
+        local W = function()
+            if not V then
                 return
             end
-            U = false
-            R.ClipsDescendants = true
-            G.lastNotification = R.Position
-            R.Flash.Position = UDim2.new(0, 0, 0, 0)
-            d:Tween(R.Flash, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
+            V = false
+            S.ClipsDescendants = true
+            library.lastNotification = S.Position
+            S.Flash.Position = UDim2.new(0, 0, 0, 0)
+            h:Tween(S.Flash, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
             wait(0.2)
-            d:Tween(R, {Size = UDim2.new(0, 0, 0, 60), Position = R.Position + UDim2.new(0, T.X + 70, 0, 0)}, 0.2)
+            h:Tween(S, {Size = UDim2.new(0, 0, 0, 60), Position = S.Position + UDim2.new(0, U.X + 70, 0, 0)}, 0.2)
             wait(0.2)
-            R:Destroy()
+            S:Destroy()
         end
-        self.activeNotification = V
-        R.Accept.MouseButton1Click:Connect(
+        self.activeNotification = W
+        S.Accept.MouseButton1Click:Connect(
             function()
-                if not U then
+                if not V then
                     return
                 end
-                if y then
-                    y(true)
+                if A then
+                    A(true)
                 end
-                V()
+                W()
             end
         )
-        R.Decline.MouseButton1Click:Connect(
+        S.Decline.MouseButton1Click:Connect(
             function()
-                if not U then
+                if not V then
                     return
                 end
-                if y then
-                    y(false)
+                if A then
+                    A(false)
                 end
-                V()
+                W()
             end
         )
     end
-    function I:addLabel(J, W, y)
-        local X =
-            d:Create(
+    function J:addLabel(K, X, A)
+        local Y =
+            h:Create(
             "ImageButton",
             {
                 Name = "Textbox",
@@ -631,12 +633,12 @@ do
                 Size = UDim2.new(1, 0, 0, 30),
                 ZIndex = 2,
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.DarkContrast,
+                ImageColor3 = j.DarkContrast,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(2, 2, 298, 298)
             },
             {
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -646,8 +648,8 @@ do
                         Size = UDim2.new(0.5, 0, 1, 0),
                         ZIndex = 3,
                         Font = Enum.Font.Gotham,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextTransparency = 0.10000000149012,
                         TextXAlignment = Enum.TextXAlignment.Left
@@ -655,12 +657,12 @@ do
                 )
             }
         )
-        table.insert(self.modules, X)
-        return X
+        table.insert(self.modules, Y)
+        return Y
     end
-    function I:addButton(J, y)
-        local M =
-            d:Create(
+    function J:addButton(K, A)
+        local N =
+            h:Create(
             "ImageButton",
             {
                 Name = "Button",
@@ -670,12 +672,12 @@ do
                 Size = UDim2.new(1, 0, 0, 30),
                 ZIndex = 2,
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.DarkContrast,
+                ImageColor3 = j.DarkContrast,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(2, 2, 298, 298)
             },
             {
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -683,43 +685,43 @@ do
                         Size = UDim2.new(1, 0, 1, 0),
                         ZIndex = 3,
                         Font = Enum.Font.Gotham,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextTransparency = 0.10000000149012
                     }
                 )
             }
         )
-        table.insert(self.modules, M)
-        local Q = M.Title
-        local Y
-        M.MouseButton1Click:Connect(
+        table.insert(self.modules, N)
+        local R = N.Title
+        local Z
+        N.MouseButton1Click:Connect(
             function()
-                if Y then
+                if Z then
                     return
                 end
-                d:Pop(M, 10)
-                Y = true
-                Q.TextSize = 0
-                d:Tween(M.Title, {TextSize = 14}, 0.2)
+                h:Pop(N, 10)
+                Z = true
+                R.TextSize = 0
+                h:Tween(N.Title, {TextSize = 14}, 0.2)
                 wait(0.2)
-                d:Tween(M.Title, {TextSize = 12}, 0.2)
-                if y then
-                    y(
+                h:Tween(N.Title, {TextSize = 12}, 0.2)
+                if A then
+                    A(
                         function(...)
-                            self:updateButton(M, ...)
+                            self:updateButton(N, ...)
                         end
                     )
                 end
-                Y = false
+                Z = false
             end
         )
-        return M
+        return N
     end
-    function I:addToggle(J, W, y)
-        local Z =
-            d:Create(
+    function J:addToggle(K, X, A)
+        local _ =
+            h:Create(
             "ImageButton",
             {
                 Name = "Toggle",
@@ -729,12 +731,12 @@ do
                 Size = UDim2.new(1, 0, 0, 30),
                 ZIndex = 2,
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.DarkContrast,
+                ImageColor3 = j.DarkContrast,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(2, 2, 298, 298)
             },
             {
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -744,14 +746,14 @@ do
                         Size = UDim2.new(0.5, 0, 1, 0),
                         ZIndex = 3,
                         Font = Enum.Font.Gotham,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextTransparency = 0.10000000149012,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "Button",
@@ -761,12 +763,12 @@ do
                         Size = UDim2.new(0, 40, 0, 16),
                         ZIndex = 2,
                         Image = "rbxassetid://5028857472",
-                        ImageColor3 = f.LightContrast,
+                        ImageColor3 = j.LightContrast,
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(2, 2, 298, 298)
                     },
                     {
-                        d:Create(
+                        h:Create(
                             "ImageLabel",
                             {
                                 Name = "Frame",
@@ -775,7 +777,7 @@ do
                                 Size = UDim2.new(1, -22, 1, -4),
                                 ZIndex = 2,
                                 Image = "rbxassetid://5028857472",
-                                ImageColor3 = f.TextColor,
+                                ImageColor3 = j.TextColor,
                                 ScaleType = Enum.ScaleType.Slice,
                                 SliceCenter = Rect.new(2, 2, 298, 298)
                             }
@@ -784,36 +786,36 @@ do
                 )
             }
         )
-        table.insert(self.modules, Z)
-        local U = W
-        local _ = {}
-        self:updateToggle(Z, nil, U)
-        function _:Get()
-            return U
+        table.insert(self.modules, _)
+        local V = X
+        local a0 = {}
+        self:updateToggle(_, nil, V)
+        function a0:Get()
+            return V
         end
-        function _:updateToggle(J, q)
-            return self:updateToggle(Z, J, q)
+        function a0:updateToggle(K, s)
+            return self:updateToggle(_, K, s)
         end
-        _.Set = function(a0)
-            U = a0
-            if y then
-                y(
-                    U,
+        a0.Set = function(a1)
+            V = a1
+            if A then
+                A(
+                    V,
                     function(...)
-                        self:updateToggle(Z, ...)
+                        self:updateToggle(_, ...)
                     end
                 )
             end
         end
-        Z.MouseButton1Click:Connect(
+        _.MouseButton1Click:Connect(
             function()
-                U = not U
-                self:updateToggle(Z, nil, U)
-                if y then
-                    y(
-                        U,
+                V = not V
+                self:updateToggle(_, nil, V)
+                if A then
+                    A(
+                        V,
                         function(...)
-                            self:updateToggle(Z, ...)
+                            self:updateToggle(_, ...)
                         end
                     )
                 end
@@ -821,14 +823,14 @@ do
         )
         return setmetatable(
             {},
-            {__index = function(a1, a2)
-                    return _[a2] or Z[a2]
+            {__index = function(a2, a3)
+                    return a0[a3] or _[a3]
                 end}
         )
     end
-    function I:addTextbox(J, W, y)
-        local X =
-            d:Create(
+    function J:addTextbox(K, X, A)
+        local Y =
+            h:Create(
             "ImageButton",
             {
                 Name = "Textbox",
@@ -838,12 +840,12 @@ do
                 Size = UDim2.new(1, 0, 0, 30),
                 ZIndex = 2,
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.DarkContrast,
+                ImageColor3 = j.DarkContrast,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(2, 2, 298, 298)
             },
             {
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -853,14 +855,14 @@ do
                         Size = UDim2.new(0.5, 0, 1, 0),
                         ZIndex = 3,
                         Font = Enum.Font.Gotham,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextTransparency = 0.10000000149012,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "Button",
@@ -869,12 +871,12 @@ do
                         Size = UDim2.new(0, 100, 0, 16),
                         ZIndex = 2,
                         Image = "rbxassetid://5028857472",
-                        ImageColor3 = f.LightContrast,
+                        ImageColor3 = j.LightContrast,
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(2, 2, 298, 298)
                     },
                     {
-                        d:Create(
+                        h:Create(
                             "TextBox",
                             {
                                 Name = "Textbox",
@@ -884,8 +886,8 @@ do
                                 Size = UDim2.new(1, -10, 1, 0),
                                 ZIndex = 3,
                                 Font = Enum.Font.GothamSemibold,
-                                Text = W or "",
-                                TextColor3 = f.TextColor,
+                                Text = X or "",
+                                TextColor3 = j.TextColor,
                                 TextSize = 11
                             }
                         )
@@ -893,59 +895,59 @@ do
                 )
             }
         )
-        table.insert(self.modules, X)
-        local M = X.Button
-        local b = M.Textbox
-        X.MouseButton1Click:Connect(
+        table.insert(self.modules, Y)
+        local N = Y.Button
+        local d = N.Textbox
+        Y.MouseButton1Click:Connect(
             function()
-                if X.Button.Size ~= UDim2.new(0, 100, 0, 16) then
+                if Y.Button.Size ~= UDim2.new(0, 100, 0, 16) then
                     return
                 end
-                d:Tween(X.Button, {Size = UDim2.new(0, 200, 0, 16), Position = UDim2.new(1, -210, 0.5, -8)}, 0.2)
+                h:Tween(Y.Button, {Size = UDim2.new(0, 200, 0, 16), Position = UDim2.new(1, -210, 0.5, -8)}, 0.2)
                 wait()
-                b.TextXAlignment = Enum.TextXAlignment.Left
-                b:CaptureFocus()
+                d.TextXAlignment = Enum.TextXAlignment.Left
+                d:CaptureFocus()
             end
         )
-        b:GetPropertyChangedSignal("Text"):Connect(
+        d:GetPropertyChangedSignal("Text"):Connect(
             function()
                 if
-                    M.ImageTransparency == 0 and
-                        (M.Size == UDim2.new(0, 200, 0, 16) or M.Size == UDim2.new(0, 100, 0, 16))
+                    N.ImageTransparency == 0 and
+                        (N.Size == UDim2.new(0, 200, 0, 16) or N.Size == UDim2.new(0, 100, 0, 16))
                  then
-                    d:Pop(M, 10)
+                    h:Pop(N, 10)
                 end
-                if y then
-                    y(
-                        b.Text,
+                if A then
+                    A(
+                        d.Text,
                         nil,
                         function(...)
-                            self:updateTextbox(X, ...)
+                            self:updateTextbox(Y, ...)
                         end
                     )
                 end
             end
         )
-        b.FocusLost:Connect(
+        d.FocusLost:Connect(
             function()
-                b.TextXAlignment = Enum.TextXAlignment.Center
-                d:Tween(X.Button, {Size = UDim2.new(0, 100, 0, 16), Position = UDim2.new(1, -110, 0.5, -8)}, 0.2)
-                if y then
-                    y(
-                        b.Text,
+                d.TextXAlignment = Enum.TextXAlignment.Center
+                h:Tween(Y.Button, {Size = UDim2.new(0, 100, 0, 16), Position = UDim2.new(1, -110, 0.5, -8)}, 0.2)
+                if A then
+                    A(
+                        d.Text,
                         true,
                         function(...)
-                            self:updateTextbox(X, ...)
+                            self:updateTextbox(Y, ...)
                         end
                     )
                 end
             end
         )
-        return X
+        return Y
     end
-    function I:addKeybind(J, W, y, a3)
-        local a4 =
-            d:Create(
+    function J:addKeybind(K, X, A, a4)
+        local a5 =
+            h:Create(
             "ImageButton",
             {
                 Name = "Keybind",
@@ -955,12 +957,12 @@ do
                 Size = UDim2.new(1, 0, 0, 30),
                 ZIndex = 2,
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.DarkContrast,
+                ImageColor3 = j.DarkContrast,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(2, 2, 298, 298)
             },
             {
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -970,14 +972,14 @@ do
                         Size = UDim2.new(1, 0, 1, 0),
                         ZIndex = 3,
                         Font = Enum.Font.Gotham,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextTransparency = 0.10000000149012,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "Button",
@@ -986,12 +988,12 @@ do
                         Size = UDim2.new(0, 100, 0, 16),
                         ZIndex = 2,
                         Image = "rbxassetid://5028857472",
-                        ImageColor3 = f.LightContrast,
+                        ImageColor3 = j.LightContrast,
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(2, 2, 298, 298)
                     },
                     {
-                        d:Create(
+                        h:Create(
                             "TextLabel",
                             {
                                 Name = "Text",
@@ -1000,8 +1002,8 @@ do
                                 Size = UDim2.new(1, 0, 1, 0),
                                 ZIndex = 3,
                                 Font = Enum.Font.GothamSemibold,
-                                Text = W and W.Name or "None",
-                                TextColor3 = f.TextColor,
+                                Text = X and X.Name or "None",
+                                TextColor3 = j.TextColor,
                                 TextSize = 11
                             }
                         )
@@ -1009,56 +1011,56 @@ do
                 )
             }
         )
-        table.insert(self.modules, a4)
-        local Q = a4.Button.Text
-        local M = a4.Button
-        local a5 = function()
-            if M.ImageTransparency == 0 then
-                d:Pop(M, 10)
+        table.insert(self.modules, a5)
+        local R = a5.Button.Text
+        local N = a5.Button
+        local a6 = function()
+            if N.ImageTransparency == 0 then
+                h:Pop(N, 10)
             end
         end
-        self.binds[a4] = {
+        self.binds[a5] = {
             callback = function()
-                a5()
-                if y then
-                    y(
+                a6()
+                if A then
+                    A(
                         function(...)
-                            self:updateKeybind(a4, ...)
+                            self:updateKeybind(a5, ...)
                         end
                     )
                 end
             end
         }
-        if W and y then
-            self:updateKeybind(a4, nil, W)
+        if X and A then
+            self:updateKeybind(a5, nil, X)
         end
-        a4.MouseButton1Click:Connect(
+        a5.MouseButton1Click:Connect(
             function()
-                a5()
-                if self.binds[a4].connection then
-                    return self:updateKeybind(a4)
+                a6()
+                if self.binds[a5].connection then
+                    return self:updateKeybind(a5)
                 end
-                if Q.Text == "None" then
-                    Q.Text = "..."
-                    local w = d:KeyPressed()
-                    self:updateKeybind(a4, nil, w.KeyCode)
-                    a5()
-                    if a3 then
-                        a3(
-                            w,
+                if R.Text == "None" then
+                    R.Text = "..."
+                    local y = h:KeyPressed()
+                    self:updateKeybind(a5, nil, y.KeyCode)
+                    a6()
+                    if a4 then
+                        a4(
+                            y,
                             function(...)
-                                self:updateKeybind(a4, ...)
+                                self:updateKeybind(a5, ...)
                             end
                         )
                     end
                 end
             end
         )
-        return a4
+        return a5
     end
-    function I:addColorPicker(J, W, y)
-        local a6 =
-            d:Create(
+    function J:addColorPicker(K, X, A)
+        local a7 =
+            h:Create(
             "ImageButton",
             {
                 Name = "ColorPicker",
@@ -1068,12 +1070,12 @@ do
                 Size = UDim2.new(1, 0, 0, 30),
                 ZIndex = 2,
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.DarkContrast,
+                ImageColor3 = j.DarkContrast,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(2, 2, 298, 298)
             },
             {
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -1083,14 +1085,14 @@ do
                         Size = UDim2.new(0.5, 0, 1, 0),
                         ZIndex = 3,
                         Font = Enum.Font.Gotham,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextTransparency = 0.10000000149012,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageButton",
                     {
                         Name = "Button",
@@ -1107,8 +1109,8 @@ do
                 )
             }
         )
-        local a7 =
-            d:Create(
+        local a8 =
+            h:Create(
             "ImageLabel",
             {
                 Name = "ColorPicker",
@@ -1119,13 +1121,13 @@ do
                 AnchorPoint = Vector2.new(0.5, 0.5),
                 Size = UDim2.new(0, 162, 0, 169),
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.Background,
+                ImageColor3 = j.Background,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(2, 2, 298, 298),
                 Visible = false
             },
             {
-                d:Create(
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "Glow",
@@ -1134,12 +1136,12 @@ do
                         Size = UDim2.new(1, 30, 1, 30),
                         ZIndex = 0,
                         Image = "rbxassetid://5028857084",
-                        ImageColor3 = f.Glow,
+                        ImageColor3 = j.Glow,
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(22, 22, 278, 278)
                     }
                 ),
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -1148,13 +1150,13 @@ do
                         Size = UDim2.new(1, -40, 0, 16),
                         ZIndex = 2,
                         Font = Enum.Font.GothamSemibold,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 14,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageButton",
                     {
                         Name = "Close",
@@ -1163,10 +1165,10 @@ do
                         Size = UDim2.new(0, 16, 0, 16),
                         ZIndex = 2,
                         Image = "rbxassetid://5012538583",
-                        ImageColor3 = f.TextColor
+                        ImageColor3 = j.TextColor
                     }
                 ),
-                d:Create(
+                h:Create(
                     "Frame",
                     {
                         Name = "Container",
@@ -1175,13 +1177,13 @@ do
                         Size = UDim2.new(1, -18, 1, -40)
                     },
                     {
-                        d:Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 6)}),
-                        d:Create(
+                        h:Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 6)}),
+                        h:Create(
                             "ImageButton",
                             {
                                 Name = "Canvas",
                                 BackgroundTransparency = 1,
-                                BorderColor3 = f.LightContrast,
+                                BorderColor3 = j.LightContrast,
                                 Size = UDim2.new(1, 0, 0, 60),
                                 AutoButtonColor = false,
                                 Image = "rbxassetid://5108535320",
@@ -1190,7 +1192,7 @@ do
                                 SliceCenter = Rect.new(2, 2, 298, 298)
                             },
                             {
-                                d:Create(
+                                h:Create(
                                     "ImageLabel",
                                     {
                                         Name = "White_Overlay",
@@ -1200,7 +1202,7 @@ do
                                         SliceCenter = Rect.new(2, 2, 298, 298)
                                     }
                                 ),
-                                d:Create(
+                                h:Create(
                                     "ImageLabel",
                                     {
                                         Name = "Black_Overlay",
@@ -1210,11 +1212,11 @@ do
                                         SliceCenter = Rect.new(2, 2, 298, 298)
                                     }
                                 ),
-                                d:Create(
+                                h:Create(
                                     "ImageLabel",
                                     {
                                         Name = "Cursor",
-                                        BackgroundColor3 = f.TextColor,
+                                        BackgroundColor3 = j.TextColor,
                                         AnchorPoint = Vector2.new(0.5, 0.5),
                                         BackgroundTransparency = 1.000,
                                         Size = UDim2.new(0, 10, 0, 10),
@@ -1225,7 +1227,7 @@ do
                                 )
                             }
                         ),
-                        d:Create(
+                        h:Create(
                             "ImageButton",
                             {
                                 Name = "Color",
@@ -1241,18 +1243,18 @@ do
                                 SliceCenter = Rect.new(2, 2, 298, 298)
                             },
                             {
-                                d:Create(
+                                h:Create(
                                     "Frame",
                                     {
                                         Name = "Select",
-                                        BackgroundColor3 = f.TextColor,
+                                        BackgroundColor3 = j.TextColor,
                                         BorderSizePixel = 1,
                                         Position = UDim2.new(1, 0, 0, 0),
                                         Size = UDim2.new(0, 2, 1, 0),
                                         ZIndex = 2
                                     }
                                 ),
-                                d:Create(
+                                h:Create(
                                     "UIGradient",
                                     {
                                         Color = ColorSequence.new(
@@ -1270,7 +1272,7 @@ do
                                 )
                             }
                         ),
-                        d:Create(
+                        h:Create(
                             "Frame",
                             {
                                 Name = "Inputs",
@@ -1279,7 +1281,7 @@ do
                                 Size = UDim2.new(1, 0, 0, 16)
                             },
                             {
-                                d:Create(
+                                h:Create(
                                     "UIListLayout",
                                     {
                                         FillDirection = Enum.FillDirection.Horizontal,
@@ -1287,7 +1289,7 @@ do
                                         Padding = UDim.new(0, 6)
                                     }
                                 ),
-                                d:Create(
+                                h:Create(
                                     "ImageLabel",
                                     {
                                         Name = "R",
@@ -1296,12 +1298,12 @@ do
                                         Size = UDim2.new(0.305, 0, 1, 0),
                                         ZIndex = 2,
                                         Image = "rbxassetid://5028857472",
-                                        ImageColor3 = f.DarkContrast,
+                                        ImageColor3 = j.DarkContrast,
                                         ScaleType = Enum.ScaleType.Slice,
                                         SliceCenter = Rect.new(2, 2, 298, 298)
                                     },
                                     {
-                                        d:Create(
+                                        h:Create(
                                             "TextLabel",
                                             {
                                                 Name = "Text",
@@ -1310,11 +1312,11 @@ do
                                                 ZIndex = 2,
                                                 Font = Enum.Font.Gotham,
                                                 Text = "R:",
-                                                TextColor3 = f.TextColor,
+                                                TextColor3 = j.TextColor,
                                                 TextSize = 10.000
                                             }
                                         ),
-                                        d:Create(
+                                        h:Create(
                                             "TextBox",
                                             {
                                                 Name = "Textbox",
@@ -1323,15 +1325,15 @@ do
                                                 Size = UDim2.new(0.600000024, 0, 1, 0),
                                                 ZIndex = 2,
                                                 Font = Enum.Font.Gotham,
-                                                PlaceholderColor3 = f.DarkContrast,
+                                                PlaceholderColor3 = j.DarkContrast,
                                                 Text = "255",
-                                                TextColor3 = f.TextColor,
+                                                TextColor3 = j.TextColor,
                                                 TextSize = 10.000
                                             }
                                         )
                                     }
                                 ),
-                                d:Create(
+                                h:Create(
                                     "ImageLabel",
                                     {
                                         Name = "G",
@@ -1340,12 +1342,12 @@ do
                                         Size = UDim2.new(0.305, 0, 1, 0),
                                         ZIndex = 2,
                                         Image = "rbxassetid://5028857472",
-                                        ImageColor3 = f.DarkContrast,
+                                        ImageColor3 = j.DarkContrast,
                                         ScaleType = Enum.ScaleType.Slice,
                                         SliceCenter = Rect.new(2, 2, 298, 298)
                                     },
                                     {
-                                        d:Create(
+                                        h:Create(
                                             "TextLabel",
                                             {
                                                 Name = "Text",
@@ -1354,11 +1356,11 @@ do
                                                 Size = UDim2.new(0.400000006, 0, 1, 0),
                                                 Font = Enum.Font.Gotham,
                                                 Text = "G:",
-                                                TextColor3 = f.TextColor,
+                                                TextColor3 = j.TextColor,
                                                 TextSize = 10.000
                                             }
                                         ),
-                                        d:Create(
+                                        h:Create(
                                             "TextBox",
                                             {
                                                 Name = "Textbox",
@@ -1368,13 +1370,13 @@ do
                                                 ZIndex = 2,
                                                 Font = Enum.Font.Gotham,
                                                 Text = "255",
-                                                TextColor3 = f.TextColor,
+                                                TextColor3 = j.TextColor,
                                                 TextSize = 10.000
                                             }
                                         )
                                     }
                                 ),
-                                d:Create(
+                                h:Create(
                                     "ImageLabel",
                                     {
                                         Name = "B",
@@ -1383,12 +1385,12 @@ do
                                         Size = UDim2.new(0.305, 0, 1, 0),
                                         ZIndex = 2,
                                         Image = "rbxassetid://5028857472",
-                                        ImageColor3 = f.DarkContrast,
+                                        ImageColor3 = j.DarkContrast,
                                         ScaleType = Enum.ScaleType.Slice,
                                         SliceCenter = Rect.new(2, 2, 298, 298)
                                     },
                                     {
-                                        d:Create(
+                                        h:Create(
                                             "TextLabel",
                                             {
                                                 Name = "Text",
@@ -1397,11 +1399,11 @@ do
                                                 ZIndex = 2,
                                                 Font = Enum.Font.Gotham,
                                                 Text = "B:",
-                                                TextColor3 = f.TextColor,
+                                                TextColor3 = j.TextColor,
                                                 TextSize = 10.000
                                             }
                                         ),
-                                        d:Create(
+                                        h:Create(
                                             "TextBox",
                                             {
                                                 Name = "Textbox",
@@ -1411,7 +1413,7 @@ do
                                                 ZIndex = 2,
                                                 Font = Enum.Font.Gotham,
                                                 Text = "255",
-                                                TextColor3 = f.TextColor,
+                                                TextColor3 = j.TextColor,
                                                 TextSize = 10.000
                                             }
                                         )
@@ -1419,7 +1421,7 @@ do
                                 )
                             }
                         ),
-                        d:Create(
+                        h:Create(
                             "ImageButton",
                             {
                                 Name = "Button",
@@ -1428,12 +1430,12 @@ do
                                 Size = UDim2.new(1, 0, 0, 20),
                                 ZIndex = 2,
                                 Image = "rbxassetid://5028857472",
-                                ImageColor3 = f.DarkContrast,
+                                ImageColor3 = j.DarkContrast,
                                 ScaleType = Enum.ScaleType.Slice,
                                 SliceCenter = Rect.new(2, 2, 298, 298)
                             },
                             {
-                                d:Create(
+                                h:Create(
                                     "TextLabel",
                                     {
                                         Name = "Text",
@@ -1442,7 +1444,7 @@ do
                                         ZIndex = 3,
                                         Font = Enum.Font.Gotham,
                                         Text = "Submit",
-                                        TextColor3 = f.TextColor,
+                                        TextColor3 = j.TextColor,
                                         TextSize = 11.000
                                     }
                                 )
@@ -1452,181 +1454,181 @@ do
                 )
             }
         )
-        d:DraggingEnabled(a7)
-        table.insert(self.modules, a6)
-        local a8 = {[""] = true}
-        local a9 = a7.Container.Canvas
-        local aa = a7.Container.Color
-        local ab, ac = a9.AbsoluteSize, a9.AbsolutePosition
-        local ad, ae = aa.AbsoluteSize, aa.AbsolutePosition
-        local af, ag
-        local N = W or Color3.fromRGB(255, 255, 255)
-        local ah, ai, aj = 0, 0, 1
-        local ak = {r = 255, g = 255, b = 255}
-        self.colorpickers[a6] = {tab = a7, callback = function(al, q)
-                ak[al] = q
-                ah, ai, aj = Color3.toHSV(Color3.fromRGB(ak.r, ak.g, ak.b))
+        h:DraggingEnabled(a8)
+        table.insert(self.modules, a7)
+        local a9 = {[""] = true}
+        local aa = a8.Container.Canvas
+        local ab = a8.Container.Color
+        local ac, ad = aa.AbsoluteSize, aa.AbsolutePosition
+        local ae, af = ab.AbsoluteSize, ab.AbsolutePosition
+        local ag, ah
+        local O = X or Color3.fromRGB(255, 255, 255)
+        local ai, aj, ak = 0, 0, 1
+        local al = {r = 255, g = 255, b = 255}
+        self.colorpickers[a7] = {tab = a8, callback = function(am, s)
+                al[am] = s
+                ai, aj, ak = Color3.toHSV(Color3.fromRGB(al.r, al.g, al.b))
             end}
-        local y = function(q)
-            if y then
-                y(
-                    q,
+        local A = function(s)
+            if A then
+                A(
+                    s,
                     function(...)
-                        self:updateColorPicker(a6, ...)
+                        self:updateColorPicker(a7, ...)
                     end
                 )
             end
         end
-        d:DraggingEnded(
+        h:DraggingEnded(
             function()
-                af, ag = false, false
+                ag, ah = false, false
             end
         )
-        if W then
-            self:updateColorPicker(a6, nil, W)
-            ah, ai, aj = Color3.toHSV(W)
-            W = Color3.fromHSV(ah, ai, aj)
-            for h, al in pairs({"r", "g", "b"}) do
-                ak[al] = W[al:upper()] * 255
+        if X then
+            self:updateColorPicker(a7, nil, X)
+            ai, aj, ak = Color3.toHSV(X)
+            X = Color3.fromHSV(ai, aj, ak)
+            for b, am in pairs({"r", "g", "b"}) do
+                al[am] = X[am:upper()] * 255
             end
         end
-        for h, K in pairs(a7.Container.Inputs:GetChildren()) do
-            if K:IsA("ImageLabel") then
-                local X = K.Textbox
-                local am
-                X.Focused:Connect(
+        for b, L in pairs(a8.Container.Inputs:GetChildren()) do
+            if L:IsA("ImageLabel") then
+                local Y = L.Textbox
+                local an
+                Y.Focused:Connect(
                     function()
-                        am = true
+                        an = true
                     end
                 )
-                X.FocusLost:Connect(
+                Y.FocusLost:Connect(
                     function()
-                        am = false
-                        if not tonumber(X.Text) then
-                            X.Text = math.floor(ak[K.Name:lower()])
+                        an = false
+                        if not tonumber(Y.Text) then
+                            Y.Text = math.floor(al[L.Name:lower()])
                         end
                     end
                 )
-                X:GetPropertyChangedSignal("Text"):Connect(
+                Y:GetPropertyChangedSignal("Text"):Connect(
                     function()
-                        local Q = X.Text
-                        if not a8[Q] and not tonumber(Q) then
-                            X.Text = Q:sub(1, #Q - 1)
-                        elseif am and not a8[Q] then
-                            ak[K.Name:lower()] = math.clamp(tonumber(X.Text), 0, 255)
-                            local N = Color3.fromRGB(ak.r, ak.g, ak.b)
-                            ah, ai, aj = Color3.toHSV(N)
-                            self:updateColorPicker(a6, nil, N)
-                            y(N)
+                        local R = Y.Text
+                        if not a9[R] and not tonumber(R) then
+                            Y.Text = R:sub(1, #R - 1)
+                        elseif an and not a9[R] then
+                            al[L.Name:lower()] = math.clamp(tonumber(Y.Text), 0, 255)
+                            local O = Color3.fromRGB(al.r, al.g, al.b)
+                            ai, aj, ak = Color3.toHSV(O)
+                            self:updateColorPicker(a7, nil, O)
+                            A(O)
                         end
                     end
                 )
             end
         end
-        a9.MouseButton1Down:Connect(
+        aa.MouseButton1Down:Connect(
+            function()
+                ah = true
+                while ah do
+                    local ao, ap = c.X, c.Y
+                    aj = math.clamp((ao - ad.X) / ac.X, 0, 1)
+                    ak = 1 - math.clamp((ap - ad.Y) / ac.Y, 0, 1)
+                    O = Color3.fromHSV(ai, aj, ak)
+                    for b, am in pairs({"r", "g", "b"}) do
+                        al[am] = O[am:upper()] * 255
+                    end
+                    self:updateColorPicker(a7, nil, {ai, aj, ak})
+                    h:Tween(aa.Cursor, {Position = UDim2.new(aj, 0, 1 - ak, 0)}, 0.1)
+                    A(O)
+                    h:Wait()
+                end
+            end
+        )
+        ab.MouseButton1Down:Connect(
             function()
                 ag = true
                 while ag do
-                    local an, ao = a.X, a.Y
-                    ai = math.clamp((an - ac.X) / ab.X, 0, 1)
-                    aj = 1 - math.clamp((ao - ac.Y) / ab.Y, 0, 1)
-                    N = Color3.fromHSV(ah, ai, aj)
-                    for h, al in pairs({"r", "g", "b"}) do
-                        ak[al] = N[al:upper()] * 255
+                    ai = 1 - math.clamp(1 - (c.X - af.X) / ae.X, 0, 1)
+                    O = Color3.fromHSV(ai, aj, ak)
+                    for b, am in pairs({"r", "g", "b"}) do
+                        al[am] = O[am:upper()] * 255
                     end
-                    self:updateColorPicker(a6, nil, {ah, ai, aj})
-                    d:Tween(a9.Cursor, {Position = UDim2.new(ai, 0, 1 - aj, 0)}, 0.1)
-                    y(N)
-                    d:Wait()
+                    local ao = ai
+                    self:updateColorPicker(a7, nil, {ai, aj, ak})
+                    h:Tween(a8.Container.Color.Select, {Position = UDim2.new(ao, 0, 0, 0)}, 0.1)
+                    A(O)
+                    h:Wait()
                 end
             end
         )
-        aa.MouseButton1Down:Connect(
-            function()
-                af = true
-                while af do
-                    ah = 1 - math.clamp(1 - (a.X - ae.X) / ad.X, 0, 1)
-                    N = Color3.fromHSV(ah, ai, aj)
-                    for h, al in pairs({"r", "g", "b"}) do
-                        ak[al] = N[al:upper()] * 255
+        local N = a7.Button
+        local _, Z, a6
+        lastColor = Color3.fromHSV(ai, aj, ak)
+        a6 = function(aq, ar)
+            if ar then
+                if not _ then
+                    return
+                end
+                if Z then
+                    while Z do
+                        h:Wait()
                     end
-                    local an = ah
-                    self:updateColorPicker(a6, nil, {ah, ai, aj})
-                    d:Tween(a7.Container.Color.Select, {Position = UDim2.new(an, 0, 0, 0)}, 0.1)
-                    y(N)
-                    d:Wait()
+                end
+            elseif not ar then
+                if Z then
+                    return
+                end
+                if N.ImageTransparency == 0 then
+                    h:Pop(N, 10)
                 end
             end
-        )
-        local M = a6.Button
-        local Z, Y, a5
-        lastColor = Color3.fromHSV(ah, ai, aj)
-        a5 = function(ap, aq)
+            _ = aq
+            Z = true
             if aq then
-                if not Z then
-                    return
-                end
-                if Y then
-                    while Y do
-                        d:Wait()
-                    end
-                end
-            elseif not aq then
-                if Y then
-                    return
-                end
-                if M.ImageTransparency == 0 then
-                    d:Pop(M, 10)
-                end
-            end
-            Z = ap
-            Y = true
-            if ap then
-                if self.page.library.activePicker and self.page.library.activePicker ~= a5 then
+                if self.page.library.activePicker and self.page.library.activePicker ~= a6 then
                     self.page.library.activePicker(nil, true)
                 end
-                self.page.library.activePicker = a5
-                lastColor = Color3.fromHSV(ah, ai, aj)
-                local ar, as = M.AbsoluteSize.X / 2, 162
-                local at, au = M.AbsolutePosition.X, M.AbsolutePosition.Y
-                a7.ClipsDescendants = true
-                a7.Visible = true
-                a7.Size = UDim2.new(0, 0, 0, 0)
-                a7.Position = UDim2.new(0, ar + as + at, 0, au)
-                d:Tween(a7, {Size = UDim2.new(0, 162, 0, 169)}, 0.2)
+                self.page.library.activePicker = a6
+                lastColor = Color3.fromHSV(ai, aj, ak)
+                local as, at = N.AbsoluteSize.X / 2, 162
+                local au, av = N.AbsolutePosition.X, N.AbsolutePosition.Y
+                a8.ClipsDescendants = true
+                a8.Visible = true
+                a8.Size = UDim2.new(0, 0, 0, 0)
+                a8.Position = UDim2.new(0, as + at + au, 0, av)
+                h:Tween(a8, {Size = UDim2.new(0, 162, 0, 169)}, 0.2)
                 wait(0.2)
-                a7.ClipsDescendants = false
-                ab, ac = a9.AbsoluteSize, a9.AbsolutePosition
-                ad, ae = aa.AbsoluteSize, aa.AbsolutePosition
+                a8.ClipsDescendants = false
+                ac, ad = aa.AbsoluteSize, aa.AbsolutePosition
+                ae, af = ab.AbsoluteSize, ab.AbsolutePosition
             else
-                d:Tween(a7, {Size = UDim2.new(0, 0, 0, 0)}, 0.2)
-                a7.ClipsDescendants = true
+                h:Tween(a8, {Size = UDim2.new(0, 0, 0, 0)}, 0.2)
+                a8.ClipsDescendants = true
                 wait(0.2)
-                a7.Visible = false
+                a8.Visible = false
             end
-            Y = false
+            Z = false
         end
-        local av = function()
-            a5(not Z)
+        local aw = function()
+            a6(not _)
         end
-        M.MouseButton1Click:Connect(av)
-        a6.MouseButton1Click:Connect(av)
-        a7.Container.Button.MouseButton1Click:Connect(
+        N.MouseButton1Click:Connect(aw)
+        a7.MouseButton1Click:Connect(aw)
+        a8.Container.Button.MouseButton1Click:Connect(
             function()
-                a5()
+                a6()
             end
         )
-        a7.Close.MouseButton1Click:Connect(
+        a8.Close.MouseButton1Click:Connect(
             function()
-                self:updateColorPicker(a6, nil, lastColor)
-                a5()
+                self:updateColorPicker(a7, nil, lastColor)
+                a6()
             end
         )
-        return a6
+        return a7
     end
-    function I:addSlider(J, W, aw, ax, y)
-        local ay =
-            d:Create(
+    function J:addSlider(K, X, ax, ay, A)
+        local az =
+            h:Create(
             "ImageButton",
             {
                 Name = "Slider",
@@ -1637,12 +1639,12 @@ do
                 Size = UDim2.new(1, 0, 0, 50),
                 ZIndex = 2,
                 Image = "rbxassetid://5028857472",
-                ImageColor3 = f.DarkContrast,
+                ImageColor3 = j.DarkContrast,
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(2, 2, 298, 298)
             },
             {
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Title",
@@ -1651,14 +1653,14 @@ do
                         Size = UDim2.new(0.5, 0, 0, 16),
                         ZIndex = 3,
                         Font = Enum.Font.Gotham,
-                        Text = J,
-                        TextColor3 = f.TextColor,
+                        Text = K,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextTransparency = 0.10000000149012,
                         TextXAlignment = Enum.TextXAlignment.Left
                     }
                 ),
-                d:Create(
+                h:Create(
                     "TextBox",
                     {
                         Name = "TextBox",
@@ -1668,13 +1670,13 @@ do
                         Size = UDim2.new(0, 20, 0, 16),
                         ZIndex = 3,
                         Font = Enum.Font.GothamSemibold,
-                        Text = W or aw,
-                        TextColor3 = f.TextColor,
+                        Text = X or ax,
+                        TextColor3 = j.TextColor,
                         TextSize = 12,
                         TextXAlignment = Enum.TextXAlignment.Right
                     }
                 ),
-                d:Create(
+                h:Create(
                     "TextLabel",
                     {
                         Name = "Slider",
@@ -1685,7 +1687,7 @@ do
                         Text = ""
                     },
                     {
-                        d:Create(
+                        h:Create(
                             "ImageLabel",
                             {
                                 Name = "Bar",
@@ -1695,12 +1697,12 @@ do
                                 Size = UDim2.new(1, 0, 0, 4),
                                 ZIndex = 3,
                                 Image = "rbxassetid://5028857472",
-                                ImageColor3 = f.LightContrast,
+                                ImageColor3 = j.LightContrast,
                                 ScaleType = Enum.ScaleType.Slice,
                                 SliceCenter = Rect.new(2, 2, 298, 298)
                             },
                             {
-                                d:Create(
+                                h:Create(
                                     "ImageLabel",
                                     {
                                         Name = "Fill",
@@ -1708,19 +1710,19 @@ do
                                         Size = UDim2.new(0.8, 0, 1, 0),
                                         ZIndex = 3,
                                         Image = "rbxassetid://5028857472",
-                                        ImageColor3 = f.TextColor,
+                                        ImageColor3 = j.TextColor,
                                         ScaleType = Enum.ScaleType.Slice,
                                         SliceCenter = Rect.new(2, 2, 298, 298)
                                     },
                                     {
-                                        d:Create(
+                                        h:Create(
                                             "ImageLabel",
                                             {
                                                 Name = "Circle",
                                                 AnchorPoint = Vector2.new(0.5, 0.5),
                                                 BackgroundTransparency = 1,
                                                 ImageTransparency = 1.000,
-                                                ImageColor3 = f.TextColor,
+                                                ImageColor3 = j.TextColor,
                                                 Position = UDim2.new(1, 0, 0.5, 0),
                                                 Size = UDim2.new(0, 10, 0, 10),
                                                 ZIndex = 3,
@@ -1735,65 +1737,65 @@ do
                 )
             }
         )
-        table.insert(self.modules, ay)
-        local a8 = {[""] = true, ["-"] = true}
-        local X = ay.TextBox
-        local az = ay.Slider.Bar.Fill.Circle
-        local q = W or aw
-        local B, aA
-        local y = function(q)
-            if y then
-                y(
-                    q,
+        table.insert(self.modules, az)
+        local a9 = {[""] = true, ["-"] = true}
+        local Y = az.TextBox
+        local aA = az.Slider.Bar.Fill.Circle
+        local s = X or ax
+        local D, aB
+        local A = function(s)
+            if A then
+                A(
+                    s,
                     function(...)
-                        self:updateSlider(ay, ...)
+                        self:updateSlider(az, ...)
                     end
                 )
             end
         end
-        self:updateSlider(ay, nil, q, aw, ax)
-        d:DraggingEnded(
+        self:updateSlider(az, nil, s, ax, ay)
+        h:DraggingEnded(
             function()
-                B = false
+                D = false
             end
         )
-        ay.MouseButton1Down:Connect(
-            function(b)
-                B = true
-                while B do
-                    d:Tween(az, {ImageTransparency = 0}, 0.1)
-                    q = self:updateSlider(ay, nil, nil, aw, ax, q)
-                    y(q)
-                    d:Wait()
+        az.MouseButton1Down:Connect(
+            function(d)
+                D = true
+                while D do
+                    h:Tween(aA, {ImageTransparency = 0}, 0.1)
+                    s = self:updateSlider(az, nil, nil, ax, ay, s)
+                    A(s)
+                    h:Wait()
                 end
                 wait(0.5)
-                d:Tween(az, {ImageTransparency = 1}, 0.2)
+                h:Tween(aA, {ImageTransparency = 1}, 0.2)
             end
         )
-        X.FocusLost:Connect(
+        Y.FocusLost:Connect(
             function()
-                if not tonumber(X.Text) then
-                    q = self:updateSlider(ay, nil, W or aw, aw, ax)
-                    y(q)
+                if not tonumber(Y.Text) then
+                    s = self:updateSlider(az, nil, X or ax, ax, ay)
+                    A(s)
                 end
             end
         )
-        X:GetPropertyChangedSignal("Text"):Connect(
+        Y:GetPropertyChangedSignal("Text"):Connect(
             function()
-                local Q = X.Text
-                if not a8[Q] and not tonumber(Q) then
-                    X.Text = Q:sub(1, #Q - 1)
-                elseif not a8[Q] then
-                    q = self:updateSlider(ay, nil, tonumber(Q) or q, aw, ax)
-                    y(q)
+                local R = Y.Text
+                if not a9[R] and not tonumber(R) then
+                    Y.Text = R:sub(1, #R - 1)
+                elseif not a9[R] then
+                    s = self:updateSlider(az, nil, tonumber(R) or s, ax, ay)
+                    A(s)
                 end
             end
         )
-        return ay
+        return az
     end
-    function I:addDropdown(J, aB, y)
-        local aC =
-            d:Create(
+    function J:addDropdown(K, aC, A)
+        local aD =
+            h:Create(
             "Frame",
             {
                 Name = "Dropdown",
@@ -1803,8 +1805,8 @@ do
                 ClipsDescendants = true
             },
             {
-                d:Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4)}),
-                d:Create(
+                h:Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4)}),
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "Search",
@@ -1813,12 +1815,12 @@ do
                         Size = UDim2.new(1, 0, 0, 30),
                         ZIndex = 2,
                         Image = "rbxassetid://5028857472",
-                        ImageColor3 = f.DarkContrast,
+                        ImageColor3 = j.DarkContrast,
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(2, 2, 298, 298)
                     },
                     {
-                        d:Create(
+                        h:Create(
                             "TextBox",
                             {
                                 Name = "TextBox",
@@ -1829,14 +1831,14 @@ do
                                 Size = UDim2.new(1, -42, 1, 0),
                                 ZIndex = 3,
                                 Font = Enum.Font.Gotham,
-                                Text = J,
-                                TextColor3 = f.TextColor,
+                                Text = K,
+                                TextColor3 = j.TextColor,
                                 TextSize = 12,
                                 TextTransparency = 0.10000000149012,
                                 TextXAlignment = Enum.TextXAlignment.Left
                             }
                         ),
-                        d:Create(
+                        h:Create(
                             "ImageButton",
                             {
                                 Name = "Button",
@@ -1846,13 +1848,13 @@ do
                                 Size = UDim2.new(0, 18, 0, 18),
                                 ZIndex = 3,
                                 Image = "rbxassetid://5012539403",
-                                ImageColor3 = f.TextColor,
+                                ImageColor3 = j.TextColor,
                                 SliceCenter = Rect.new(2, 2, 298, 298)
                             }
                         )
                     }
                 ),
-                d:Create(
+                h:Create(
                     "ImageLabel",
                     {
                         Name = "List",
@@ -1861,12 +1863,12 @@ do
                         Size = UDim2.new(1, 0, 1, -34),
                         ZIndex = 2,
                         Image = "rbxassetid://5028857472",
-                        ImageColor3 = f.Background,
+                        ImageColor3 = j.Background,
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(2, 2, 298, 298)
                     },
                     {
-                        d:Create(
+                        h:Create(
                             "ScrollingFrame",
                             {
                                 Name = "Frame",
@@ -1879,10 +1881,10 @@ do
                                 CanvasSize = UDim2.new(0, 0, 0, 120),
                                 ZIndex = 2,
                                 ScrollBarThickness = 3,
-                                ScrollBarImageColor3 = f.DarkContrast
+                                ScrollBarImageColor3 = j.DarkContrast
                             },
                             {
-                                d:Create(
+                                h:Create(
                                     "UIListLayout",
                                     {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4)}
                                 )
@@ -1892,277 +1894,277 @@ do
                 )
             }
         )
-        table.insert(self.modules, aC)
-        local _ = {}
-        local aD = aC.Search
-        local am
-        aB = aB or {}
-        aD.Button.MouseButton1Click:Connect(
+        table.insert(self.modules, aD)
+        local a0 = {}
+        local aE = aD.Search
+        local an
+        aC = aC or {}
+        aE.Button.MouseButton1Click:Connect(
             function()
-                if aD.Button.Rotation == 0 then
-                    self:updateDropdown(aC, nil, aB, y)
+                if aE.Button.Rotation == 0 then
+                    self:updateDropdown(aD, nil, aC, A)
                 else
-                    self:updateDropdown(aC, nil, nil, y)
+                    self:updateDropdown(aD, nil, nil, A)
                 end
             end
         )
-        aD.TextBox.Focused:Connect(
+        aE.TextBox.Focused:Connect(
             function()
-                if aD.Button.Rotation == 0 then
-                    self:updateDropdown(aC, nil, aB, y)
+                if aE.Button.Rotation == 0 then
+                    self:updateDropdown(aD, nil, aC, A)
                 end
-                am = true
+                an = true
             end
         )
-        aD.TextBox.FocusLost:Connect(
+        aE.TextBox.FocusLost:Connect(
             function()
-                am = false
+                an = false
             end
         )
-        aD.TextBox:GetPropertyChangedSignal("Text"):Connect(
+        aE.TextBox:GetPropertyChangedSignal("Text"):Connect(
             function()
-                if am then
-                    local aB = d:Sort(aD.TextBox.Text, aB)
-                    aB = #aB ~= 0 and aB
-                    self:updateDropdown(aC, nil, aB, y)
+                if an then
+                    local aC = h:Sort(aE.TextBox.Text, aC)
+                    aC = #aC ~= 0 and aC
+                    self:updateDropdown(aD, nil, aC, A)
                 end
             end
         )
-        aC:GetPropertyChangedSignal("Size"):Connect(
+        aD:GetPropertyChangedSignal("Size"):Connect(
             function()
                 self:Resize()
             end
         )
-        function _:Get()
-            return aD.TextBox.Text
+        function a0:Get()
+            return aE.TextBox.Text
         end
-        local aE = self
-        function _:updateDropdown(J, aB, y)
-            return aE:updateDropdown(aC, J, aB, y)
+        local aF = self
+        function a0:updateDropdown(K, aC, A)
+            return aF:updateDropdown(aD, K, aC, A)
         end
-        return aC
+        return aD
     end
-    function G:SelectPage(H, Z)
-        if Z and self.focusedPage == H then
+    function library:SelectPage(I, _)
+        if _ and self.focusedPage == I then
             return
         end
-        local M = H.button
-        if Z then
-            M.Title.TextTransparency = 0
-            M.Title.Font = Enum.Font.GothamSemibold
-            if M:FindFirstChild("Icon") then
-                M.Icon.ImageTransparency = 0
+        local N = I.button
+        if _ then
+            N.Title.TextTransparency = 0
+            N.Title.Font = Enum.Font.GothamSemibold
+            if N:FindFirstChild("Icon") then
+                N.Icon.ImageTransparency = 0
             end
-            local aF = self.focusedPage
-            self.focusedPage = H
-            if aF then
-                self:SelectPage(aF)
+            local aG = self.focusedPage
+            self.focusedPage = I
+            if aG then
+                self:SelectPage(aG)
             end
-            local aG = aF and #aF.sections or 0
-            local aH = #H.sections - aG
-            H:Resize()
-            for h, I in pairs(H.sections) do
-                I.container.Parent.ImageTransparency = 0
+            local aH = aG and #aG.sections or 0
+            local aI = #I.sections - aH
+            I:Resize()
+            for b, J in pairs(I.sections) do
+                J.container.Parent.ImageTransparency = 0
             end
-            if aH < 0 then
-                for h = aG, #H.sections + 1, -1 do
-                    local I = aF.sections[h].container.Parent
-                    d:Tween(I, {ImageTransparency = 1}, 0.1)
+            if aI < 0 then
+                for b = aH, #I.sections + 1, -1 do
+                    local J = aG.sections[b].container.Parent
+                    h:Tween(J, {ImageTransparency = 1}, 0.1)
                 end
             end
             wait(0.1)
-            H.container.Visible = true
-            if aF then
-                aF.container.Visible = false
+            I.container.Visible = true
+            if aG then
+                aG.container.Visible = false
             end
-            if aH > 0 then
-                for h = aG + 1, #H.sections do
-                    local I = H.sections[h].container.Parent
-                    I.ImageTransparency = 1
-                    d:Tween(I, {ImageTransparency = 0}, 0.05)
+            if aI > 0 then
+                for b = aH + 1, #I.sections do
+                    local J = I.sections[b].container.Parent
+                    J.ImageTransparency = 1
+                    h:Tween(J, {ImageTransparency = 0}, 0.05)
                 end
             end
             wait(0.05)
-            for h, I in pairs(H.sections) do
-                d:Tween(I.container.Title, {TextTransparency = 0}, 0.1)
-                I:Resize(true)
+            for b, J in pairs(I.sections) do
+                h:Tween(J.container.Title, {TextTransparency = 0}, 0.1)
+                J:Resize(true)
                 wait(0.05)
             end
             wait(0.05)
-            H:Resize(true)
+            I:Resize(true)
         else
-            M.Title.Font = Enum.Font.Gotham
-            M.Title.TextTransparency = 0.65
-            if M:FindFirstChild("Icon") then
-                M.Icon.ImageTransparency = 0.65
+            N.Title.Font = Enum.Font.Gotham
+            N.Title.TextTransparency = 0.65
+            if N:FindFirstChild("Icon") then
+                N.Icon.ImageTransparency = 0.65
             end
-            for h, I in pairs(H.sections) do
-                d:Tween(I.container.Parent, {Size = UDim2.new(1, -10, 0, 28)}, 0.1)
-                d:Tween(I.container.Title, {TextTransparency = 1}, 0.1)
+            for b, J in pairs(I.sections) do
+                h:Tween(J.container.Parent, {Size = UDim2.new(1, -10, 0, 28)}, 0.1)
+                h:Tween(J.container.Title, {TextTransparency = 1}, 0.1)
             end
             wait(0.1)
-            H.lastPosition = H.container.CanvasPosition.Y
-            H:Resize()
+            I.lastPosition = I.container.CanvasPosition.Y
+            I:Resize()
         end
     end
-    function H:Resize(aI)
-        local S = 10
-        local aJ = 0
-        for h, I in pairs(self.sections) do
-            aJ = aJ + I.container.Parent.AbsoluteSize.Y + S
+    function I:Resize(aJ)
+        local T = 10
+        local aK = 0
+        for b, J in pairs(self.sections) do
+            aK = aK + J.container.Parent.AbsoluteSize.Y + T
         end
-        self.container.CanvasSize = UDim2.new(0, 0, 0, aJ)
-        self.container.ScrollBarImageTransparency = aJ > self.container.AbsoluteSize.Y
-        if aI then
-            d:Tween(self.container, {CanvasPosition = Vector2.new(0, self.lastPosition or 0)}, 0.2)
+        self.container.CanvasSize = UDim2.new(0, 0, 0, aK)
+        self.container.ScrollBarImageTransparency = aK > self.container.AbsoluteSize.Y
+        if aJ then
+            h:Tween(self.container, {CanvasPosition = Vector2.new(0, self.lastPosition or 0)}, 0.2)
         end
     end
-    function I:Resize(aK)
+    function J:Resize(aL)
         if self.page.library.focusedPage ~= self.page then
             return
         end
-        local S = 4
-        local aJ = 4 * S + self.container.Title.AbsoluteSize.Y
-        for h, o in pairs(self.modules) do
-            aJ = aJ + o.AbsoluteSize.Y + S
+        local T = 4
+        local aK = 4 * T + self.container.Title.AbsoluteSize.Y
+        for b, q in pairs(self.modules) do
+            aK = aK + q.AbsoluteSize.Y + T
         end
-        if aK then
-            d:Tween(self.container.Parent, {Size = UDim2.new(1, -10, 0, aJ)}, 0.05)
+        if aL then
+            h:Tween(self.container.Parent, {Size = UDim2.new(1, -10, 0, aK)}, 0.05)
         else
-            self.container.Parent.Size = UDim2.new(1, -10, 0, aJ)
+            self.container.Parent.Size = UDim2.new(1, -10, 0, aK)
             self.page:Resize()
         end
     end
-    function I:getModule(aL)
-        if table.find(self.modules, aL) then
-            return aL
+    function J:getModule(aM)
+        if table.find(self.modules, aM) then
+            return aM
         end
-        for h, o in pairs(self.modules) do
-            if (o:FindFirstChild("Title") or o:FindFirstChild("TextBox", true)).Text == aL then
-                return o
+        for b, q in pairs(self.modules) do
+            if (q:FindFirstChild("Title") or q:FindFirstChild("TextBox", true)).Text == aM then
+                return q
             end
         end
-        error("No module found under " .. tostring(aL))
+        error("No module found under " .. tostring(aM))
     end
-    function I:updateButton(M, J)
-        M = self:getModule(M)
-        M.Title.Text = J
+    function J:updateButton(N, K)
+        N = self:getModule(N)
+        N.Title.Text = K
     end
-    function I:updateToggle(Z, J, q)
-        Z = self:getModule(Z)
-        local aM = {In = UDim2.new(0, 2, 0.5, -6), Out = UDim2.new(0, 20, 0.5, -6)}
-        local z = Z.Button.Frame
-        q = q and "Out" or "In"
-        if J then
-            Z.Title.Text = J
+    function J:updateToggle(_, K, s)
+        _ = self:getModule(_)
+        local aN = {In = UDim2.new(0, 2, 0.5, -6), Out = UDim2.new(0, 20, 0.5, -6)}
+        local B = _.Button.Frame
+        s = s and "Out" or "In"
+        if K then
+            _.Title.Text = K
         end
-        d:Tween(z, {Size = UDim2.new(1, -22, 1, -9), Position = aM[q] + UDim2.new(0, 0, 0, 2.5)}, 0.2)
+        h:Tween(B, {Size = UDim2.new(1, -22, 1, -9), Position = aN[s] + UDim2.new(0, 0, 0, 2.5)}, 0.2)
         wait(0.1)
-        d:Tween(z, {Size = UDim2.new(1, -22, 1, -4), Position = aM[q]}, 0.1)
+        h:Tween(B, {Size = UDim2.new(1, -22, 1, -4), Position = aN[s]}, 0.1)
     end
-    function I:updateTextbox(X, J, q)
-        X = self:getModule(X)
-        if J then
-            X.Title.Text = J
+    function J:updateTextbox(Y, K, s)
+        Y = self:getModule(Y)
+        if K then
+            Y.Title.Text = K
         end
-        if q then
-            X.Button.Textbox.Text = q
+        if s then
+            Y.Button.Textbox.Text = s
         end
     end
-    function I:updateKeybind(a4, J, w)
-        a4 = self:getModule(a4)
-        local Q = a4.Button.Text
-        local x = self.binds[a4]
-        if J then
-            a4.Title.Text = J
+    function J:updateKeybind(a5, K, y)
+        a5 = self:getModule(a5)
+        local R = a5.Button.Text
+        local z = self.binds[a5]
+        if K then
+            a5.Title.Text = K
         end
-        if x.connection then
-            x.connection = x.connection:UnBind()
+        if z.connection then
+            z.connection = z.connection:UnBind()
         end
-        if w then
-            self.binds[a4].connection = d:BindToKey(w, x.callback)
-            Q.Text = w.Name
+        if y then
+            self.binds[a5].connection = h:BindToKey(y, z.callback)
+            R.Text = y.Name
         else
-            Q.Text = "None"
+            R.Text = "None"
         end
     end
-    function I:updateColorPicker(a6, J, aa)
-        a6 = self:getModule(a6)
-        local aN = self.colorpickers[a6]
-        local a7 = aN.tab
-        local y = aN.callback
-        if J then
-            a6.Title.Text = J
-            a7.Title.Text = J
+    function J:updateColorPicker(a7, K, ab)
+        a7 = self:getModule(a7)
+        local aO = self.colorpickers[a7]
+        local a8 = aO.tab
+        local A = aO.callback
+        if K then
+            a7.Title.Text = K
+            a8.Title.Text = K
         end
-        local N
-        local ah, ai, aj
-        if type(aa) == "table" then
-            ah, ai, aj = unpack(aa)
-            N = Color3.fromHSV(ah, ai, aj)
+        local O
+        local ai, aj, ak
+        if type(ab) == "table" then
+            ai, aj, ak = unpack(ab)
+            O = Color3.fromHSV(ai, aj, ak)
         else
-            N = aa
-            ah, ai, aj = Color3.toHSV(N)
+            O = ab
+            ai, aj, ak = Color3.toHSV(O)
         end
-        d:Tween(a6.Button, {ImageColor3 = N}, 0.5)
-        d:Tween(a7.Container.Color.Select, {Position = UDim2.new(ah, 0, 0, 0)}, 0.1)
-        d:Tween(a7.Container.Canvas, {ImageColor3 = Color3.fromHSV(ah, 1, 1)}, 0.5)
-        d:Tween(a7.Container.Canvas.Cursor, {Position = UDim2.new(ai, 0, 1 - aj)}, 0.5)
-        for h, K in pairs(a7.Container.Inputs:GetChildren()) do
-            if K:IsA("ImageLabel") then
-                local q = math.clamp(N[K.Name], 0, 1) * 255
-                K.Textbox.Text = math.floor(q)
+        h:Tween(a7.Button, {ImageColor3 = O}, 0.5)
+        h:Tween(a8.Container.Color.Select, {Position = UDim2.new(ai, 0, 0, 0)}, 0.1)
+        h:Tween(a8.Container.Canvas, {ImageColor3 = Color3.fromHSV(ai, 1, 1)}, 0.5)
+        h:Tween(a8.Container.Canvas.Cursor, {Position = UDim2.new(aj, 0, 1 - ak)}, 0.5)
+        for b, L in pairs(a8.Container.Inputs:GetChildren()) do
+            if L:IsA("ImageLabel") then
+                local s = math.clamp(O[L.Name], 0, 1) * 255
+                L.Textbox.Text = math.floor(s)
             end
         end
     end
-    function I:updateSlider(ay, J, q, aw, ax, aO)
-        ay = self:getModule(ay)
-        if J then
-            ay.Title.Text = J
+    function J:updateSlider(az, K, s, ax, ay, aP)
+        az = self:getModule(az)
+        if K then
+            az.Title.Text = K
         end
-        local aP = ay.Slider.Bar
-        local aQ = (a.X - aP.AbsolutePosition.X) / aP.AbsoluteSize.X
-        if q then
-            aQ = (q - aw) / (ax - aw)
+        local aQ = az.Slider.Bar
+        local aR = (c.X - aQ.AbsolutePosition.X) / aQ.AbsoluteSize.X
+        if s then
+            aR = (s - ax) / (ay - ax)
         end
-        aQ = math.clamp(aQ, 0, 1)
-        q = q or math.floor(aw + (ax - aw) * aQ)
-        ay.TextBox.Text = q
-        d:Tween(aP.Fill, {Size = UDim2.new(aQ, 0, 1, 0)}, 0.1)
-        if q ~= aO and ay.ImageTransparency == 0 then
-            d:Pop(ay, 10)
+        aR = math.clamp(aR, 0, 1)
+        s = s or math.floor(ax + (ay - ax) * aR)
+        az.TextBox.Text = s
+        h:Tween(aQ.Fill, {Size = UDim2.new(aR, 0, 1, 0)}, 0.1)
+        if s ~= aP and az.ImageTransparency == 0 then
+            h:Pop(az, 10)
         end
-        return q
+        return s
     end
-    function I:updateDropdown(aC, J, aB, y)
-        aC = self:getModule(aC)
-        if J then
-            aC.Search.TextBox.Text = J
+    function J:updateDropdown(aD, K, aC, A)
+        aD = self:getModule(aD)
+        if K then
+            aD.Search.TextBox.Text = K
         end
-        local aR = 0
-        d:Pop(aC.Search, 10)
-        for h, M in pairs(aC.List.Frame:GetChildren()) do
-            if M:IsA("ImageButton") then
-                M:Destroy()
+        local aS = 0
+        h:Pop(aD.Search, 10)
+        for b, N in pairs(aD.List.Frame:GetChildren()) do
+            if N:IsA("ImageButton") then
+                N:Destroy()
             end
         end
-        for h, q in pairs(aB or {}) do
-            local M =
-                d:Create(
+        for b, s in pairs(aC or {}) do
+            local N =
+                h:Create(
                 "ImageButton",
                 {
-                    Parent = aC.List.Frame,
+                    Parent = aD.List.Frame,
                     BackgroundTransparency = 1,
                     BorderSizePixel = 0,
                     Size = UDim2.new(1, 0, 0, 30),
                     ZIndex = 2,
                     Image = "rbxassetid://5028857472",
-                    ImageColor3 = f.DarkContrast,
+                    ImageColor3 = j.DarkContrast,
                     ScaleType = Enum.ScaleType.Slice,
                     SliceCenter = Rect.new(2, 2, 298, 298)
                 },
                 {
-                    d:Create(
+                    h:Create(
                         "TextLabel",
                         {
                             BackgroundTransparency = 1,
@@ -2170,8 +2172,8 @@ do
                             Size = UDim2.new(1, -10, 1, 0),
                             ZIndex = 3,
                             Font = Enum.Font.Gotham,
-                            Text = q,
-                            TextColor3 = f.TextColor,
+                            Text = s,
+                            TextColor3 = j.TextColor,
                             TextSize = 12,
                             TextXAlignment = "Left",
                             TextTransparency = 0.10000000149012
@@ -2179,36 +2181,36 @@ do
                     )
                 }
             )
-            M.MouseButton1Click:Connect(
+            N.MouseButton1Click:Connect(
                 function()
-                    if y then
-                        y(
-                            q,
+                    if A then
+                        A(
+                            s,
                             function(...)
-                                self:updateDropdown(aC, ...)
+                                self:updateDropdown(aD, ...)
                             end
                         )
                     end
-                    self:updateDropdown(aC, q, nil, y)
+                    self:updateDropdown(aD, s, nil, A)
                 end
             )
-            aR = aR + 1
+            aS = aS + 1
         end
-        local z = aC.List.Frame
-        d:Tween(aC, {Size = UDim2.new(1, 0, 0, aR == 0 and 30 or math.clamp(aR, 0, 3) * 34 + 38)}, 0.3)
-        d:Tween(aC.Search.Button, {Rotation = aB and 180 or 0}, 0.3)
-        if aR > 3 then
-            for h, M in pairs(aC.List.Frame:GetChildren()) do
-                if M:IsA("ImageButton") then
-                    M.Size = UDim2.new(1, -6, 0, 30)
+        local B = aD.List.Frame
+        h:Tween(aD, {Size = UDim2.new(1, 0, 0, aS == 0 and 30 or math.clamp(aS, 0, 3) * 34 + 38)}, 0.3)
+        h:Tween(aD.Search.Button, {Rotation = aC and 180 or 0}, 0.3)
+        if aS > 3 then
+            for b, N in pairs(aD.List.Frame:GetChildren()) do
+                if N:IsA("ImageButton") then
+                    N.Size = UDim2.new(1, -6, 0, 30)
                 end
             end
-            z.CanvasSize = UDim2.new(0, 0, 0, aR * 34 - 4)
-            z.ScrollBarImageTransparency = 0
+            B.CanvasSize = UDim2.new(0, 0, 0, aS * 34 - 4)
+            B.ScrollBarImageTransparency = 0
         else
-            z.CanvasSize = UDim2.new(0, 0, 0, 0)
-            z.ScrollBarImageTransparency = 1
+            B.CanvasSize = UDim2.new(0, 0, 0, 0)
+            B.ScrollBarImageTransparency = 1
         end
     end
 end
-return G
+return library
