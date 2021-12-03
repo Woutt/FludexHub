@@ -1047,7 +1047,7 @@ do
                     a6()
                     if a4 then
                         a4(
-                            y,
+                            y.KeyCode,
                             function(...)
                                 self:updateKeybind(a5, ...)
                             end
