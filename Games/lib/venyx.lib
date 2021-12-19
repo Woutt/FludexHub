@@ -1992,11 +1992,6 @@ do
             end
             wait(0.05)
             I:Resize(true)
-            for b, o in pairs(game:GetService("CoreGui"):GetDescendants()) do
-                if o.Parent.Name == GetGuiName and o.Parent.ClassName == "ScreenGui" and o.Name == "Main" then
-                    o:TweenPosition(UDim2.new(0, 600, 0, 300), "Out", "Quart", 1.5)
-                end
-            end
         else
             N.Title.Font = Enum.Font.Gotham
             N.Title.TextTransparency = 0.65
