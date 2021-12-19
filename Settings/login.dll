@@ -14,9 +14,6 @@ local table = {
     ["discord"] = {
     	["inv"] = "tg9uymesSZ",
     	["owner"] = "Woutt#4106",
-    	["test1"] = "Y07MwQ491GPtSR7dfFZrJmi8PPsR0SejfCkopKl3_AtZ8ET5TkTZJ4gPhJarTwJFodHD",
-    	["test2"] = "879010445019730001",
-    	["test3"] = "fgJKUYrfgbhRT576dfEZTG77EZ5g45dvrgYj5rg4r6Rgbr",
     },
     ["get_exploit"] = function()
         local checker =
