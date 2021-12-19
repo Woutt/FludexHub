@@ -1,0 +1,26 @@
+  local table = {
+    [1] = "abcdefg", --//test
+    [2] = "o[tVTzrSQq]!", --//op-slan in exploit
+    [3] = "1865734982258", --//allen numbers
+    [4] = "https://controlc.com/f84e8c47", --//key website
+
+	["image"] = {
+		["background"] = "http://www.roblox.com/asset/?id=8211657640",
+		["glow"] = "http://www.roblox.com/asset/?id=8198465912",
+		["copy"] = "http://www.roblox.com/asset/?id=8211721462",
+		["load"] = "http://www.roblox.com/asset/?id=8197932333",
+		["lock"] = "http://www.roblox.com/asset/?id=8198617824",
+	},
+	["discord"] = {
+		["inv"] = "tg9uymesSZ",
+		["owner"] = "Woutt#4106",
+	},
+    ["join"] = function()
+        if game.PlaceId == 5445504800 or game.PlaceId == 4042427666 or game.PlaceId == 5113678354 or game.PlaceId == 5113680396 or game.PlaceId == 5445525505 or game.PlaceId == 6479720355 then 
+            --loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Games/AnimeFightingSim.lua"))()
+        elseif game.PlaceId == 1 then
+            loadstring(game:HttpGet(""))()
+        end
+    end
+}
+return table
