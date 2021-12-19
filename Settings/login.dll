@@ -46,6 +46,8 @@ local table = {
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Games/AnimeFightingSim.lua"))()
         elseif game.PlaceId == 1 then
             loadstring(game:HttpGet(""))()
+        else
+            print("no game found")
         end
     end
 }
