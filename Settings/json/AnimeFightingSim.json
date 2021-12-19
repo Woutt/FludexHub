@@ -1,0 +1,11 @@
+{
+  "NPCquest": "Boom",
+  "BuyChamp": "non stop buying",
+  "Stat": "Strength",
+  "BuyShop": "Fludex Shop",
+  "TweenSpeed": 500,
+  "KeySpam": ["Q","E","R","T","Y","U","I","O","P","F","G","H","J","K","L","B","N","M"],
+  "Toggle": null,
+  "magnitude": 100,
+  "ChoosenPower": "non stop buying"
+}
