@@ -36,7 +36,7 @@ local table = {
     		(IsElectron and "Electron") or
             (shadow_env and "Shadow") or
     		(OXYGEN_LOADED and "oxygen") or
-    		(identifyexecutor and setfflag and getspecialinfo and not syn and dumpstring and "Templegm") or 
+    		(identifyexecutor and setfflag and getspecialinfo and not syn and dumpstring and "Temple") or 
     	--bad exploits lol
     		(WrapGlobal and "WeAreDevs") or
             (jit and "EasyExploits") or
