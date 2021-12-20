@@ -1,11 +1,22 @@
 {
+  "image": [
+    "6157092213",
+    "7246622296",
+    "3805250049",
+    "5012544092",
+    "5012537936",
+    "5012543481",
+    "5012544693",
+    "5012544944",
+    "5012544372",
+    "6157107985"
+  ],
   "NPCquest": "Boom",
   "BuyChamp": "non stop buying",
   "Stat": "Strength",
   "BuyShop": "Fludex Shop",
   "TweenSpeed": 500,
-  "KeySpam": ["Q","E","R","T","Y","U","I","O","P","F","G","H","J","K","L","B","N","M"],
-  "Toggle": null,
   "magnitude": 100,
-  "ChoosenPower": "non stop buying"
+  "ChoosenPower": "non stop buying",
+  "KeySpam": ["Q","E","R","T","Y","U","I","O","P","F","G","H","J","K","L","B","N","M"]
 }
