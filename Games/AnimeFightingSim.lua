@@ -77,39 +77,36 @@ local environment = {
 local getAWord = function(len, str, wordindex, Environment)
 	len = len or 1
 	local word = Environment["|Stringsub|"](str, wordindex, domath(wordindex, domath(len, 1, "|SUB|"), "|ADD|")) --// wordindex + (len - 1)
-	wordindex = domath(wordindex, len, "|ADD|") --// wordindex + len
+	wordindex = domath(wordindex, len, "|ADD|") 
 	return word
 end
---// generate this one 5 times and randomize the numbers
+
 local getQWord = function(str, wordindex, Environment)
 	local left, right, front, back, top = Environment["|Stringbyte|"](str, wordindex, wordindex + 4)
 	wordindex = wordindex + 5
 	return (back * 16777216) + (front * 65536) + (right * 256) + left
                 + (top * 4294967296);
 end
---// generate this one 2-3 times and randomize the 65536 and 256
+
 local getCWord = function(str, wordindex, Environment)
 	local left, right, front = Environment["|Stringbyte|"](str, wordindex, wordindex + 2)
 	wordindex = wordindex + 3
 	return (front * 65536) + (right * 256) + left
 end
---// generate this one like 1-3 times but randomize the 256
+
 local getBWord = function(str, wordindex, Environment)
 	local left, right = Environment["|Stringbyte|"](str, wordindex, wordindex + 1)
 	wordindex = wordindex + 2
 	return (right * 256) + left
 end
---// generate this one 4-5 times and randomize the numbers
+
 local getDWord = function(str, wordindex, Environment)
 	local left, right, front, bacl = Environment["|Stringbyte|"](str, wordindex, wordindex + 3)
 	wordindex = wordindex + 4
 	return (back * 16777216) + (front * 65536) + (right * 256) + left;
 end
 
-        --nerd
-        -- thanks melancholy
 
-        -- // equality, less than, greater than test
 local function check(val, val2, statement)
 	assert(statement, "dm this to Herrtt or Melancholy")
 	if statement == "|EQ|" then
@@ -121,25 +118,25 @@ local function check(val, val2, statement)
 	end
 end
         
-        -- // maths stuff
+
 local function domath(val, val2, statement)
 	assert(statement, "dm this to Herrtt or Melancholy")
-	if check(statement, "|MUL|", "|EQ|") then --// if statement == "|MUL|" then
+	if check(statement, "|MUL|", "|EQ|") then 
 		return val * val2
-	elseif check(statement, "|DIV|", "|EQ|") then --// if statement == "|DIV|" then
+	elseif check(statement, "|DIV|", "|EQ|") then 
 		return val / val2
-	elseif check(statement, "|ADD|", "|EQ|") then --// if statement == "|ADD|" then
+	elseif check(statement, "|ADD|", "|EQ|") then 
 		return val + val2
-	elseif check(statement, "|SUB|", "|EQ|") then --// if statement == "|SUB|" then
+	elseif check(statement, "|SUB|", "|EQ|") then 
 		return val - val2
-	elseif check(statement, "|MOD|", "|EQ|") then --// if statement == "|MOD|" then
+	elseif check(statement, "|MOD|", "|EQ|") then 
 		return val % val2
-	elseif check(statement, "|POW|", "|EQ|") then --// if statement == "|POW|" then
+	elseif check(statement, "|POW|", "|EQ|") then 
 		return val ^ val2
 	end
 end
         
-        -- // dont know what to call this tbh
+
 local function reverser(val, statement)
 	assert(statement, "dm this to Herrtt or Melancholy")
 	if check(statement, "|UNM|", "|EQ|") then --// if statement == "|UNM|" then
@@ -151,7 +148,7 @@ local function reverser(val, statement)
 	end
 end
         
-        -- // concat stuff
+
 local function concat(val, val2, statement)
 	assert(statement, "dm this to Herrtt or Melancholy")
 	if check(statement, "|CONCATSTRING|", "|EQ|") then --// if statement == "|CONCATSTRING|" then
@@ -188,7 +185,7 @@ XORString1Fake = function(str, key)
 	end
 	return res
 end;
-BitXOR = function(a, b) --Bitwise xor
+BitXOR = function(a, b)
 	local p, c = 1, 0
 	while a > 0 and b > 0 do
 		local ra, rb = a % 2, b % 2
@@ -349,7 +346,7 @@ return (function(__ARG__)
 	XTR = { };
 	do
 		local setmetatable = Get_Tables()[XORStringSec("\3\52\7\4\60\38\43\32\48\16\20\21")];
-		if (setmetatable ~= nil) then -- just incase they got some shit lua version
+		if (setmetatable ~= nil) then 
 			XTR[XORStringSec("\47\41\26\54\110\8\19\102\24\43\49\70\43\71\92\0\107\121\46")] = setmetatable({
 				[67.75788282632413] = -96.02031702917925;
 				[149.34136994913507] = -13.714703253943;
@@ -375,7 +372,7 @@ return (function(__ARG__)
 		end;
 	end;
 	XTR["_xi690Iiz69Ix9L9Zz"] = xorStrS1;
---START_ENV_LOAD
+
 	local unpack = Get_Tables()[XORTableSec({
 		5,
 		63,
@@ -525,7 +522,7 @@ return (function(__ARG__)
 		12
 	})];
 	local xorStr = XTR["\95\120\105\54\57\48\73\105\122\54\57\73\120\57\76\57\90\122"];
---END_ENV_LOAD
+
 	local cyield = coroutine["yield"];
 	local function whatLineErr(...)
 		local _, str = ...
@@ -550,7 +547,7 @@ return (function(__ARG__)
 		end)()
 	end;
 
-        -- // integrity check character table
+
 	local function integritycheckchartbl()
 		if reverser(check(getmetatable(chartbl), nil, "|EQ|"), "|NOT|") then -- // if getmetatable(chartable) ~= nil then
 			return cyield()
@@ -769,9 +766,9 @@ return (function(__ARG__)
 					enum = Inst['opcode'];
 					pc = pc + 1
   
-                -- fat trash debug
+               
 					local t = tostring;
-                --print(("[%s]	%s	|	%s	:	%s	:	%s"):format(t(pc - 1), t(enum), t(a), t(b), t(c)));
+                
 					if ("SETGLOBAL" ~= enum) then
 						if (enum == "SELF") then
 							if (Inst[3] >= 256) then
@@ -1026,7 +1023,7 @@ return (function(__ARG__)
 																																				local A		= Inst[1];
 																																				local Stk	= Stack;
 																														
-																														-- As per mirroring the real vm
+																														
 																																				Stk[A] = assert(tonumber(Stk[A]), '`for` initial value must be a number');
 																																				Stk[A + 1] = assert(tonumber(Stk[A + 1]), '`for` limit must be a number');
 																																				Stk[A + 2] = assert(tonumber(Stk[A + 2]), '`for` step must be a number');
@@ -1359,7 +1356,7 @@ return (function(__ARG__)
 			end
 			while true do
 				local c = read()
-            --print("=>", c:byte(), p)
+            
 				if c == char2 then -- break
 					break
 				end
@@ -1373,7 +1370,7 @@ return (function(__ARG__)
 					Inst["__value__"] = gByte5();
 					Inst[_n1] = a;
 
-                    --print("-", opname, a, b, c, Inst["__value__"]);
+                   
 					VM(opname)(Inst);
 				end
 				if c == char0 then -- addinst
@@ -1385,7 +1382,7 @@ return (function(__ARG__)
 					Inst[_n2] = b;
 					Inst["__value__"] = gByte5();
 					Inst[_n3] = c;
-                    --print("-", opname, a, b, c, Inst["__value__"]);
+                   
 					VM(opname)(Inst);
 					local index = gByte4();
 					usedInstsCache[index] = opname;
