@@ -1,3 +1,7 @@
+--[[
+    not my obfuscator because it break everything
+    credits to hertt
+--]]
 local a, b, c = nil, nil, nil
 ([[System-Fludex: https://discord.gg/tg9uymesSZ]]):gsub(
     "(.*)",
