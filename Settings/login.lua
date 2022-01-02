@@ -3,9 +3,11 @@ local table = {
     [2] = "o[tVTzrSQq]", --//op-slan in exploit
     [3] = "1865734982258", --//allen numbers
     [4] = "https://controlc.com/31f76f61", --//key website
-    ["Get_Script"] = function()
+    ["Get_Script"] = function() 
         if game.PlaceId == 5445504800 or game.PlaceId == 4042427666 or game.PlaceId == 5113678354 or game.PlaceId == 5113680396 or game.PlaceId == 5445525505 or game.PlaceId == 6479720355 then 
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Games/Anime_Fighting_Sim.lua"))()
+        elseif game.PlaceId == 2202352383 then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Games/Super_Power_Training_Sim.lua"))()
         elseif game.PlaceId == 1 then
             loadstring(game:HttpGet(""))()
         else
