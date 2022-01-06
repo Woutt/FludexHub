@@ -1,5 +1,5 @@
 local table = {
-    [1] = "a3m0f3d5o6p9k5q5i9i2m4h8s7q9b3a7d3k6h3f5c1f6s3z4d1", --//test
+    [1] = "u1t0h3y2b9s9l9o5b2g1b5b5o7m0t9i4y3n8h4y5s2y1i1s3z2", --//test
     [2] = "o[tVTzrSQq]", --//op-slan in exploit
     [3] = "1865734982258", --//allen numbers
     [4] = "https://controlc.com/31f76f61", --//key website
