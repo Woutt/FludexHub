@@ -2,7 +2,7 @@ local table = {
     [1] = "u1t0h3y2b9s9l9o5b2g1b5b5o7m0t9i4y3n8h4y5s2y1i1s3z2", --//test
     [2] = "o[tVTzrSQq]", --//op-slan in exploit
     [3] = "1865734982258", --//allen numbers
-    [4] = "controlc.com/1046025f", --//key website
+    [4] = "https://controlc.com/1046025f", --//key website
     ["Get_Script"] = function() 
         if game.PlaceId == 5445504800 or game.PlaceId == 4042427666 or game.PlaceId == 5113678354 or game.PlaceId == 5113680396 or game.PlaceId == 5445525505 or game.PlaceId == 6479720355 then 
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Games/Anime_Fighting_Sim.lua"))()
