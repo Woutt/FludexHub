@@ -190,118 +190,112 @@ do
     function E.new(L)
         local M = L[1] or "nil"
         local H = L[2] or false
-        if L[3] == false then
-            wait(9e9)
-            print("104 166,667 days later")
-            wait(9e9)
-        else
-            local N =
+        local N =
+            b:Create(
+            "ScreenGui",
+            {Name = G(H, math.random(10, 20)), Parent = game.CoreGui},
+            {
                 b:Create(
-                "ScreenGui",
-                {Name = G(H, math.random(10, 20)), Parent = game.CoreGui},
-                {
-                    b:Create(
-                        "ImageLabel",
-                        {
-                            Name = "Main",
-                            BackgroundTransparency = 1,
-                            Position = UDim2.new(0.25, 0, 0.052435593, 0),
-                            Size = UDim2.new(0, 520, 0, 440),
-                            Image = "rbxassetid://4641149554",
-                            ImageColor3 = a.Background,
-                            ScaleType = Enum.ScaleType.Slice,
-                            SliceCenter = Rect.new(4, 4, 296, 296)
-                        },
-                        {
-                            b:Create(
-                                "ImageLabel",
-                                {
-                                    Name = "Glow",
-                                    BackgroundTransparency = 1,
-                                    Position = UDim2.new(0, -15, 0, -15),
-                                    Size = UDim2.new(1, 30, 1, 30),
-                                    ZIndex = 0,
-                                    Image = "rbxassetid://5028857084",
-                                    ImageColor3 = a.Glow,
-                                    ScaleType = Enum.ScaleType.Slice,
-                                    SliceCenter = Rect.new(24, 24, 276, 276)
-                                }
-                            ),
-                            b:Create(
-                                "ImageLabel",
-                                {
-                                    Name = "Pages",
-                                    BackgroundTransparency = 1,
-                                    ClipsDescendants = true,
-                                    Position = UDim2.new(0, 0, 0, 38),
-                                    Size = UDim2.new(0, 126, 1, -38),
-                                    ZIndex = 3,
-                                    Image = "rbxassetid://5012534273",
-                                    ImageColor3 = a.DarkContrast,
-                                    ScaleType = Enum.ScaleType.Slice,
-                                    SliceCenter = Rect.new(4, 4, 296, 296)
-                                },
-                                {
-                                    b:Create(
-                                        "ScrollingFrame",
-                                        {
-                                            Name = "Pages_Container",
-                                            Active = true,
-                                            BackgroundTransparency = 1,
-                                            Position = UDim2.new(0, 0, 0, 10),
-                                            Size = UDim2.new(1, 0, 1, -20),
-                                            CanvasSize = UDim2.new(0, 0, 0, 314),
-                                            ScrollBarThickness = 0
-                                        },
-                                        {
-                                            b:Create(
-                                                "UIListLayout",
-                                                {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 10)}
-                                            )
-                                        }
-                                    )
-                                }
-                            ),
-                            b:Create(
-                                "ImageLabel",
-                                {
-                                    Name = "TopBar",
-                                    BackgroundTransparency = 1,
-                                    ClipsDescendants = true,
-                                    Size = UDim2.new(1, 0, 0, 38),
-                                    ZIndex = 5,
-                                    Image = "rbxassetid://4595286933",
-                                    ImageColor3 = a.Accent,
-                                    ScaleType = Enum.ScaleType.Slice,
-                                    SliceCenter = Rect.new(4, 4, 296, 296)
-                                },
-                                {
-                                    b:Create(
-                                        "TextLabel",
-                                        {
-                                            Name = "Title",
-                                            AnchorPoint = Vector2.new(0, 0.5),
-                                            BackgroundTransparency = 1,
-                                            Position = UDim2.new(0, 12, 0, 19),
-                                            Size = UDim2.new(1, -46, 0, 16),
-                                            ZIndex = 5,
-                                            Font = Enum.Font.GothamBold,
-                                            Text = M,
-                                            TextColor3 = a.TextColor,
-                                            TextSize = 14,
-                                            TextXAlignment = Enum.TextXAlignment.Left
-                                        }
-                                    )
-                                }
-                            )
-                        }
-                    )
-                }
-            )
-            b:InitializeKeybind()
-            b:DraggingEnabled(N.Main.TopBar, N.Main)
-            return setmetatable({container = N, pagesContainer = N.Main.Pages.Pages_Container, pages = {}}, E)
-        end
+                    "ImageLabel",
+                    {
+                        Name = "Main",
+                        BackgroundTransparency = 1,
+                        Position = UDim2.new(0.25, 0, 0.052435593, 0),
+                        Size = UDim2.new(0, 520, 0, 440),
+                        Image = "rbxassetid://4641149554",
+                        ImageColor3 = a.Background,
+                        ScaleType = Enum.ScaleType.Slice,
+                        SliceCenter = Rect.new(4, 4, 296, 296)
+                    },
+                    {
+                        b:Create(
+                            "ImageLabel",
+                            {
+                                Name = "Glow",
+                                BackgroundTransparency = 1,
+                                Position = UDim2.new(0, -15, 0, -15),
+                                Size = UDim2.new(1, 30, 1, 30),
+                                ZIndex = 0,
+                                Image = "rbxassetid://5028857084",
+                                ImageColor3 = a.Glow,
+                                ScaleType = Enum.ScaleType.Slice,
+                                SliceCenter = Rect.new(24, 24, 276, 276)
+                            }
+                        ),
+                        b:Create(
+                            "ImageLabel",
+                            {
+                                Name = "Pages",
+                                BackgroundTransparency = 1,
+                                ClipsDescendants = true,
+                                Position = UDim2.new(0, 0, 0, 38),
+                                Size = UDim2.new(0, 126, 1, -38),
+                                ZIndex = 3,
+                                Image = "rbxassetid://5012534273",
+                                ImageColor3 = a.DarkContrast,
+                                ScaleType = Enum.ScaleType.Slice,
+                                SliceCenter = Rect.new(4, 4, 296, 296)
+                            },
+                            {
+                                b:Create(
+                                    "ScrollingFrame",
+                                    {
+                                        Name = "Pages_Container",
+                                        Active = true,
+                                        BackgroundTransparency = 1,
+                                        Position = UDim2.new(0, 0, 0, 10),
+                                        Size = UDim2.new(1, 0, 1, -20),
+                                        CanvasSize = UDim2.new(0, 0, 0, 314),
+                                        ScrollBarThickness = 0
+                                    },
+                                    {
+                                        b:Create(
+                                            "UIListLayout",
+                                            {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 10)}
+                                        )
+                                    }
+                                )
+                            }
+                        ),
+                        b:Create(
+                            "ImageLabel",
+                            {
+                                Name = "TopBar",
+                                BackgroundTransparency = 1,
+                                ClipsDescendants = true,
+                                Size = UDim2.new(1, 0, 0, 38),
+                                ZIndex = 5,
+                                Image = "rbxassetid://4595286933",
+                                ImageColor3 = a.Accent,
+                                ScaleType = Enum.ScaleType.Slice,
+                                SliceCenter = Rect.new(4, 4, 296, 296)
+                            },
+                            {
+                                b:Create(
+                                    "TextLabel",
+                                    {
+                                        Name = "Title",
+                                        AnchorPoint = Vector2.new(0, 0.5),
+                                        BackgroundTransparency = 1,
+                                        Position = UDim2.new(0, 12, 0, 19),
+                                        Size = UDim2.new(1, -46, 0, 16),
+                                        ZIndex = 5,
+                                        Font = Enum.Font.GothamBold,
+                                        Text = M,
+                                        TextColor3 = a.TextColor,
+                                        TextSize = 14,
+                                        TextXAlignment = Enum.TextXAlignment.Left
+                                    }
+                                )
+                            }
+                        )
+                    }
+                )
+            }
+        )
+        b:InitializeKeybind()
+        b:DraggingEnabled(N.Main.TopBar, N.Main)
+        return setmetatable({container = N, pagesContainer = N.Main.Pages.Pages_Container, pages = {}}, E)
     end
     function F.new(E, M, O)
         local P =
