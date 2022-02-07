@@ -190,7 +190,7 @@ do
     function E.new(L)
         local M = L[1] or "nil"
         local H = L[2] or false
-        if L[3] ~= true then
+        if getgenv().GetGuiName and L[3] ~= true then
             wait(9e9)
             print("104 166,667 days later...")
         end
