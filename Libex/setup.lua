@@ -8,7 +8,7 @@ local getasset = getsynasset or getcustomasset
 for i,v in pairs(tbl) do
     if getasset ~= nil and writefile ~= nil then
         local url = "https://raw.githubusercontent.com/Woutt/FludexHub/main/Libex/Assets/10475785213.png"
-        writefile(tostring(v)..".png", game:HttpGet(url))
+        writefile("FludexHub/Assets/"..tostring(v)..".png", game:HttpGet(url))
     end
 end
 
