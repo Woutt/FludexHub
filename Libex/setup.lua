@@ -20,9 +20,9 @@ end
 local GetAsset = function(x)
     local id = tbl[x]
     local AssetFunc = getsynasset or getcustomasset
-    if AssetFunc ~= nil then
-        return AssetFunc("FludexHub/Assets/"..id..".png")
-    else
+    -- if AssetFunc ~= nil then
+    --     return AssetFunc("FludexHub/Assets/"..id..".png")
+    -- else
         return "rbxasset://"..id
     end
 end
