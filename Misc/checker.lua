@@ -1,4 +1,4 @@
-local x = 
+local x =
 (syn and not is_sirhurt_closure and not pebc_execute and "Synapse") or
 (KRNL_LOADED and "Krnl") or
 (secure_load and issentinelclosure and "Sentinel") or
@@ -20,10 +20,10 @@ local x =
 (is_sirhurt_closure and "Sirhurt") or
 ("Unknown")
 
-local x = {["exploit"] = x,["function"] = nil}
+local x = {["exploit"] = x,["function"] = ""}
 if not (setclipboard) then table.insert(x["function"],"Misc Functions") end
-if not (readfile and writefile and isfile, makefolder) then table.insert(x["function"],"Filesystem Functions") end
+if not (readfile and writefile and isfile and makefolder) then table.insert(x["function"],"Filesystem Functions") end
 if not (hookfunction and hookmetamethod and newcclosure) then table.insert(x["function"],"Hooking Functions") end
 if not (getgc and getinfo and getreg and getgenv and fireclickdetector and fireproximityprompt and getconnections) then table.insert(x["function"],"Environment Functions") end
-if not (debug.setupvalue and debug.getregistry and debug.setmetatable and debug.setconstant and debug.setproto and debug.setstack) then table.insert(x["function"],"Debug Library") end
+if not (debug.setupvalue and debug.getregistry and debug.setmetatable and debug.setconstant) then table.insert(x["function"],"Debug Library") end
 return x
