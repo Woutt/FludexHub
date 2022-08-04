@@ -9,8 +9,8 @@ local tbl = {
 
 for i,v in pairs(tbl) do
     if getasset ~= nil and writefile ~= nil then
-        local url = "https://raw.githubusercontent.com/Woutt/FludexHub/main/Libex/Assets/10475785213.png"
         if isfile("FludexHub/Assets/"..v..".png") then
+            local url = "https://raw.githubusercontent.com/Woutt/FludexHub/main/Libex/Assets/"..v..".png"
             writefile("FludexHub/Assets/"..v..".png", game:HttpGet(url))
         end
     end
