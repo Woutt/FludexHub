@@ -1,13 +1,13 @@
 local tbl = {
-    10475785213, -- // circel
-    10475787657, -- // square
-    10475788806  -- // shadow
+    "10475785213", -- // circel
+    "10475787657", -- // square
+    "10475788806"  -- // shadow
 }
 
 for i,v in pairs(tbl) do
     if getasset ~= nil and writefile ~= nil then
         local url = "https://raw.githubusercontent.com/Woutt/FludexHub/main/Libex/Assets/10475785213.png"
-        writefile("FludexHub/Assets/"..tostring(v)..".png", game:HttpGet(url))
+        writefile("FludexHub/Assets/"..v..".png", game:HttpGet(url))
     end
 end
 
