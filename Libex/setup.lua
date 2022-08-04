@@ -4,7 +4,6 @@ local tbl = {
     10475788806  -- // shadow
 }
 
-local getasset = getsynasset or getcustomasset 
 for i,v in pairs(tbl) do
     if getasset ~= nil and writefile ~= nil then
         local url = "https://raw.githubusercontent.com/Woutt/FludexHub/main/Libex/Assets/10475785213.png"
@@ -12,4 +11,13 @@ for i,v in pairs(tbl) do
     end
 end
 
-return tbl
+local GetAsset = function(x)
+    local id = tbl[x]
+    local AssetFunc = getsynasset or getcustomasset
+    if AssetFunc ~= nil then
+        return AssetFunc("FludexHub/Assets/"..id..".png")
+    else
+        return "rbxasset://"..id
+    end
+end
+return GetAsset
