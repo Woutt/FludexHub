@@ -24,6 +24,6 @@ local GetAsset = function(x)
     --     return AssetFunc("FludexHub/Assets/"..id..".png")
     -- else
         return "rbxasset://"..id
-    end
+    -- end
 end
 return GetAsset
