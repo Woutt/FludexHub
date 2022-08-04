@@ -20,7 +20,7 @@ local x =
 (is_sirhurt_closure and "Sirhurt") or
 ("Unknown")
 
-local x = {["exploit"] = x,["function"] = ""}
+local x = {["exploit"] = x,["function"] = nil}
 if not (setclipboard) then table.insert(x["function"],"Misc Functions") end
 if not (readfile and writefile and isfile and makefolder) then table.insert(x["function"],"Filesystem Functions") end
 if not (hookfunction and hookmetamethod and newcclosure) then table.insert(x["function"],"Hooking Functions") end
