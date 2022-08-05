@@ -3,7 +3,7 @@ return {
     [2] = "https://linktr.ee/Woutt",
 
     ["discord"] = {
-    	["inv"] =   "tg9uymesSZ",
+    	["inv"] =   "8WhHsAcaFh",
     	["owner"] = "Woutt#4106",
     },
     
