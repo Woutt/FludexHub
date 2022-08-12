@@ -1,43 +1,21 @@
 
 
 getgenv().settings = {
-    shared = nil,
-    force_stop = false,
-    theme = "test",
-    toggle = nil,
     TweenSpeed = 0.05,
-    magnitude = 1,
 }
 
 getgenv().teleport = function(...)
     local TP, info = CFrame.new(...), TweenInfo.new(settings.TweenSpeed, Enum.EasingStyle.Linear)
     pcall(function()
-        if (game.Players.LocalPlayer.Character.PrimaryPart.Position-TP.Position).magnitude >= settings.magnitude then
-            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = TP}):Play()
-            wait(settings.TweenSpeed)
-        end
+        game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = TP}):Play()
+        wait(settings.TweenSpeed)
     end)
-end
-
-getgenv().folder = function(a)
-    if not isfolder(a) then
-        makefolder(a)
-    end
-end
-
-getgenv().file = function(a,b)
-    if not isfile(a) then
-        writefile(a, "")
-    end
-    if b then
-        appendfile(a, b)
-    end
 end
 
 getgenv().script_error = function(v)
     local datum = os.date("%Y/%m/%d")
     local time = os.date("%I:%M")
-    local path = tostring("System-Fludex/FludexHub/errors/"..datum)
+    local path = tostring("FludexHub/errors/"..datum)
 
     if not isfile(path) then 
         writefile(path, "") 
@@ -72,7 +50,7 @@ getgenv().empty_server = function(x)
         if (nextCursor) then 
             Url = Url .. "&cursor=" .. nextCursor 
         end
-        local Servers = game:GetService('HttpService'):JSONDecode(game:HttpGet(Url));
+        local Servers = game:GetService('HttpService'):JSONDecode(game:HttpGet(Url))
         if (Servers) then
             nextCursor = Servers.nextPageCursor or nil
             Page = Page + 1
@@ -85,29 +63,31 @@ getgenv().empty_server = function(x)
                 end
             end
         end
-    until (not nextCursor) or (Page >= pageLimit);
+    until (not nextCursor) or (Page >= pageLimit)
     if (serverId) then
-        warn("Teleporting to: " .. tostring(serverId) .. ", Player Count: " .. minimum);
-        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, serverId);
+        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, serverId)
     end
 end
 
 getgenv().discord_invite = function()
     local x = loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Misc/Settings.lua"))()["discord"]
     if (setclipboard) then
-        setclipboard("https://discord.gg/"..x["inv"])
+        local clipboard = write_clipboard or writeclipboard or setclipboard or set_clipboard
+        clipboard("https://discord.gg/"..x["inv"])
     else
-        game.StarterGui:SetCore("SendNotification",{Title = "FludexHub", Text = "Discord Invite:\nhttps://discord.gg/"..x["inv"], Duration = 25})
-        return
+        return "https://discord.gg/"..x["inv"]
     end
-	local req = syn.request or http_request or request or http.request or HttpPost or nil
-	if req ~= nil then
-		for port=6463, 6472, 1 do
-			local inv = "http://127.0.0.1:"..tostring(port).."/rpc?v=1"
-			local http = game:GetService("HttpService")
-			local t = {cmd = "INVITE_BROWSER", args = {["code"] = x["inv"]}, nonce = string.lower(http:GenerateGUID(false))}
-			local post = http:JSONEncode(t)
-			req({Url = inv, Method = "POST", Body = post, Headers = {["Content-Type"] = "application/json", ["Origin"] = "https://discord.com"}})
-		end
-	end
+    task.spawn(function()
+        local req = syn.request or http_request or request or http.request or HttpPost or httprequest or nil
+        if req ~= nil then
+            for port=6463, 6472, 1 do
+                local inv = "http://127.0.0.1:"..tostring(port).."/rpc?v=1"
+                local http = game:GetService("HttpService")
+                local t = {cmd = "INVITE_BROWSER", args = {["code"] = x["inv"]}, nonce = string.lower(http:GenerateGUID(false))}
+                local post = http:JSONEncode(t)
+                req({Url = inv, Method = "POST", Body = post, Headers = {["Content-Type"] = "application/json", ["Origin"] = "https://discord.com"}})
+            end
+        end
+    end)
+    return true
 end
