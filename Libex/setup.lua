@@ -12,7 +12,6 @@ for i,v in pairs(tbl) do
         if not isfile("FludexHub/Assets/"..v..".png") then
             local url = "https://raw.githubusercontent.com/Woutt/FludexHub/main/Libex/Assets/"..v..".png"
             writefile("FludexHub/Assets/"..v..".png", game:HttpGet(url))
-            print("sss")
         end
     end
 end
