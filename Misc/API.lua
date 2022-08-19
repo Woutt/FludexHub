@@ -1,18 +1,22 @@
+getgenv().Request = syn.request or http_request or request or http.request or HttpPost or httprequest or function(...) end
+getgenv().Clipboard = write_clipboard or writeclipboard or setclipboard or set_clipboard or function(...) 
+    print(...) 
+end
 
 
 getgenv().settings = {
     TweenSpeed = 0.05,
 }
 
-getgenv().teleport = function(...)
-    local TP, info = CFrame.new(...), TweenInfo.new(settings.TweenSpeed, Enum.EasingStyle.Linear)
+getgenv().Teleport = function(...)
+    local TP, info = ..., TweenInfo.new(settings.TweenSpeed, Enum.EasingStyle.Linear)
     pcall(function()
         game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = TP}):Play()
         wait(settings.TweenSpeed)
     end)
 end
 
-getgenv().script_error = function(v)
+getgenv().SaveError = function(v)
     local datum = os.date("%Y/%m/%d")
     local time = os.date("%I:%M")
     local path = tostring("FludexHub/errors/"..datum)
@@ -23,7 +27,7 @@ getgenv().script_error = function(v)
     appendfile(path, "["..time.."] "..v)
 end
 
-getgenv().generate_string = function(v)
+getgenv().StringCreate = function(v)
     local x = {}
     if v == nil then v = math.random(10,20) end
     for i = 1, v do
@@ -32,16 +36,47 @@ getgenv().generate_string = function(v)
     return table.concat(x)
 end
 
-getgenv().rejoin_server = function()
+getgenv().Rejoin = function()
     if #game:GetService("Players"):GetPlayers() <= 1 then
         game:GetService("Players").LocalPlayer:Kick("\n\n\nRejoining server please wait :)\n\n\n") wait()
-        game:GetService('TeleportService'):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
     else
-        game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId, game:GetService("Players").LocalPlayer)
+        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game:GetService("Players").LocalPlayer)
     end
 end
 
-getgenv().empty_server = function(x)
+getgenv().ServerHop = function()
+    local servers = {}
+    local cursor = ""
+    while cursor and #servers == 0 do
+        task.wait()
+        local req = Request({
+            Url = ("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100&cursor=%s"):format(placeid,cursor)
+        })
+        local body = jsond(req.Body)
+
+        if body and body.data then
+            task.spawn(function()
+                for i,v in pairs(body.data) do
+                    if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and not table.find(data.jobids,v.id) then
+                        table.insert(servers, 1, v.id)
+                    end 
+                end
+            end)
+
+            if body.nextPageCursor then
+                cursor = body.nextPageCursor
+            end
+        end
+    end
+    while #servers > 0 do
+        local random = servers[math.random(1, #servers)]
+        TeleportService:TeleportToPlaceInstance(placeid, random, Players.LocalPlayer)
+        task.wait(1)
+    end
+end
+
+getgenv().EmptyServer = function(x)
     local pageLimit = tonumber(x) or math.huge
     local minimum = math.huge
     local Page,nextCursor,serverId = 0,nil,nil
@@ -50,13 +85,13 @@ getgenv().empty_server = function(x)
         if (nextCursor) then 
             Url = Url .. "&cursor=" .. nextCursor 
         end
-        local Servers = game:GetService('HttpService'):JSONDecode(game:HttpGet(Url))
+        local Servers = game:GetService("HttpService"):JSONDecode(game:HttpGet(Url))
         if (Servers) then
             nextCursor = Servers.nextPageCursor or nil
             Page = Page + 1
             for _,v in pairs(Servers.data) do
                 v.playing = v.playing or math.huge
-                v.id = v.id or ''
+                v.id = v.id or ""
                 if v.id ~= game.JobId and v.playing <= minimum then 
                     minimum = v.playing
                     serverId = v.id
@@ -69,25 +104,23 @@ getgenv().empty_server = function(x)
     end
 end
 
-getgenv().discord_invite = function()
+getgenv().Invite = function()
     local x = loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Misc/Settings.lua"))()["discord"]
-    if (setclipboard) then
-        local clipboard = write_clipboard or writeclipboard or setclipboard or set_clipboard
-        clipboard("https://discord.gg/"..x["inv"])
+    local url = "https://discord.gg/"..x["inv"]
+    if (Clipboard) then
+        Clipboard(url)
     else
-        return "https://discord.gg/"..x["inv"]
+        return url
     end
     task.spawn(function()
-        local req = syn.request or http_request or request or http.request or HttpPost or httprequest or nil
-        if req ~= nil then
-            for port=6463, 6472, 1 do
-                local inv = "http://127.0.0.1:"..tostring(port).."/rpc?v=1"
-                local http = game:GetService("HttpService")
-                local t = {cmd = "INVITE_BROWSER", args = {["code"] = x["inv"]}, nonce = string.lower(http:GenerateGUID(false))}
-                local post = http:JSONEncode(t)
-                req({Url = inv, Method = "POST", Body = post, Headers = {["Content-Type"] = "application/json", ["Origin"] = "https://discord.com"}})
-            end
+        for port=6463, 6472, 1 do
+            local inv = "http://127.0.0.1:"..tostring(port).."/rpc?v=1"
+            local http = game:GetService("HttpService")
+            local t = {cmd = "INVITE_BROWSER", args = {["code"] = x["inv"]}, nonce = string.lower(http:GenerateGUID(false))}
+            local post = http:JSONEncode(t)
+            Request({Url = inv, Method = "POST", Body = post, Headers = {["Content-Type"] = "application/json", ["Origin"] = "https://discord.com"}})
         end
     end)
     return true
 end
+
