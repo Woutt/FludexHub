@@ -1,9 +1,9 @@
 return {
-    [1] = "key is there ==>                                                                                                                                                                                                                  what do you think that i am, dum XD",
+    [1] = "Lz8d8e7mURO2ncjeEz0H",
     [2] = "https://linktr.ee/Woutt",
 
     ["discord"] = {
-    	["inv"] =   "8WhHsAcaFh",
+    	["inv"] =   "tg9uymesSZ",
     	["owner"] = "Woutt#4106",
     },
     
