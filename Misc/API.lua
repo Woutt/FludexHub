@@ -1,13 +1,42 @@
 getgenv().Request = syn.request or http_request or request or http.request or HttpPost or httprequest or function(...) end
-getgenv().Clipboard = write_clipboard or writeclipboard or setclipboard or set_clipboard or function(...) 
-    print(...) 
+getgenv().Clipboard = write_clipboard or writeclipboard or setclipboard or set_clipboard or function(...) print(...) end
+
+
+getgenv().FileSystem = function(Directory, Contents)
+    local WriteFile =  writefile or write_file or write or nil
+    local IsFolder = isfolder or syn_isfolder or is_folder or nil
+    local MakeFolder = makefolder or make_folder or createfolder or create_folder or nil
+    if WriteFile and IsFolder and MakeFolder then
+        if (Directory:sub(1, 1) == "/") then
+            Directory = Directory:sub(2, -1)
+        end
+
+        if (Directory:sub(1, 2) == "./") then
+            Directory = Directory:sub(3, -1)
+        end
+
+        if (not Directory:find("/")) then
+            return WriteFile(Directory, Contents)
+        end
+
+        local Directories = Directory:split("/")
+        local CurrentDirectory = ""
+        for i = 1, #Directories - 1 do
+            local Direct = Directories[i]
+            CurrentDirectory = CurrentDirectory .. "/" .. Direct
+            if (not IsFolder(CurrentDirectory)) then
+                MakeFolder(CurrentDirectory)
+            end
+        end
+        if Contents then
+            return WriteFile(Directory, Contents)
+        end
+    else
+        print("File System Isnt Supported With Your Exploit")
+    end
 end
 
-
-getgenv().settings = {
-    TweenSpeed = 0.05,
-}
-
+getgenv().settings = {TweenSpeed = 0.05}
 getgenv().Teleport = function(...)
     local TP, info = ..., TweenInfo.new(settings.TweenSpeed, Enum.EasingStyle.Linear)
     pcall(function()
@@ -24,7 +53,7 @@ getgenv().SaveError = function(v)
     if not isfile(path) then 
         writefile(path, "") 
     end
-    appendfile(path, "["..time.."] "..v)
+    appendfile(path, "["..time.."] "..v.."\n")
 end
 
 getgenv().StringCreate = function(v)
@@ -53,7 +82,7 @@ getgenv().ServerHop = function()
         local req = Request({
             Url = ("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100&cursor=%s"):format(placeid,cursor)
         })
-        local body = jsond(req.Body)
+        local body = game:GetService("HttpService"):JSONDecode(req.Body)
 
         if body and body.data then
             task.spawn(function()
@@ -105,7 +134,7 @@ getgenv().EmptyServer = function(x)
 end
 
 getgenv().Invite = function()
-    local x = loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Misc/Settings.lua"))()["discord"]
+    local x = loadstring(game:HttpGet("https://raw.githubusercontent.com/Woutt/FludexHub/main/Misc/Settings.lua"))()["Discord"]
     local url = "https://discord.gg/"..x["inv"]
     if (Clipboard) then
         Clipboard(url)
@@ -123,4 +152,3 @@ getgenv().Invite = function()
     end)
     return true
 end
-
