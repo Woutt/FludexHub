@@ -1,6 +1,6 @@
 return {
     [1] = "Lz8d8e7mURO2ncjeEz0H28d4f6531dd0f30350e6423bb52ace43932b8159",
-    [2] = "https://linktr.ee/Woutt",
+    [2] = "controlc.com/51ab2d10",
 
     ["Discord"] = {
     	["inv"] =   "tg9uymesSZ",
