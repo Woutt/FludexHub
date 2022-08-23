@@ -7,6 +7,8 @@ local tbl = {
     "10477426603"  -- // Scroll Square
 }
 
+local WriteFile = writefile or write_file or write or nil
+local IsFile = isfile or syn_isfile or is_file or nil
 for i,v in pairs(tbl) do
     if (writefile and isfile) then
         if not isfile("FludexHub/Assets/"..v..".png") then
