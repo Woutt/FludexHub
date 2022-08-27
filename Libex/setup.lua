@@ -3,17 +3,17 @@ local tbl = {
     "10475787657", -- // Square
     "10475788806", -- // Shadow
     "10477330253", -- // Full Circel
-    "10477389259", -- // Gradient Plate
-    "10477426603"  -- // Scroll Square
+    "10477389234", -- // Gradient Plate
+    "10477426577"  -- // Scroll Square
 }
 
 local WriteFile = writefile or write_file or write or nil
 local IsFile = isfile or syn_isfile or is_file or nil
 for i,v in pairs(tbl) do
-    if (writefile and isfile) then
-        if not isfile("FludexHub/Assets/"..v..".png") then
+    if (WriteFile and IsFile) then
+        if not IsFile("FludexHub/Assets/"..v..".png") then
             local url = "https://raw.githubusercontent.com/Woutt/FludexHub/main/Libex/Assets/"..v..".png"
-            writefile("FludexHub/Assets/"..v..".png", game:HttpGet(url))
+            WriteFile("FludexHub/Assets/"..v..".png", game:HttpGet(url))
         end
     end
 end
