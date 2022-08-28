@@ -3,7 +3,7 @@ getgenv().Clipboard = write_clipboard or writeclipboard or setclipboard or set_c
 
 
 getgenv().FileSystem = function(Directory, Contents)
-    local WriteFile =  writefile or write_file or write or nil
+    local WriteFile = writefile or write_file or write or nil
     local IsFolder = isfolder or syn_isfolder or is_folder or nil
     local MakeFolder = makefolder or make_folder or createfolder or create_folder or nil
     if WriteFile and IsFolder and MakeFolder then
@@ -40,7 +40,7 @@ getgenv().settings = {TweenSpeed = 0.05}
 getgenv().Teleport = function(...)
     local TP, info = ..., TweenInfo.new(settings.TweenSpeed, Enum.EasingStyle.Linear)
     pcall(function()
-        game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = TP}):Play()
+        game:GetService("TweenService"):Create(game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"), info, {CFrame = TP}):Play()
         wait(settings.TweenSpeed)
     end)
 end
