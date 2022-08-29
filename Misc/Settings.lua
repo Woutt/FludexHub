@@ -1,9 +1,12 @@
 return {
-    [1] = "Lz8d8e7mURO2ncjeEz0H28d4f6531dd0f30350e6423bb52ace43932b8159",
-    [2] = "controlc.com/51ab2d10",
+    [1] = {
+		"Lz8d8e7mURO2ncjeEz0H28d4f6531dd0f30350e6423bb52ace43932b8159",
+		"IuzzBOhiWTOb9dlyG4cwajW585oWD0ahXOw5apt7lpF1ATGR4JBJub2LLGeC"
+	},
+    [2] = "https://linktr.ee/Woutt",
 
     ["Discord"] = {
-    	["inv"] =   "tg9uymesSZ",
+    	["inv"] =   "frtsee2sqU",
     	["owner"] = "Woutt#4106",
     },
     
