@@ -1,4 +1,4 @@
-local x =
+local x = 
 (syn and not is_sirhurt_closure and not pebc_execute and "Synapse") or
 (KRNL_LOADED and "Krnl") or
 (secure_load and issentinelclosure and "Sentinel") or
