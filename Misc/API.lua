@@ -1,6 +1,10 @@
 getgenv().Request = syn.request or http_request or request or http.request or HttpPost or httprequest or function(...) end
 getgenv().Clipboard = write_clipboard or writeclipboard or setclipboard or set_clipboard or function(...) print(...) end
-
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+   game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+   wait(1)
+   game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
 
 getgenv().FileSystem = function(Directory, Contents)
     local WriteFile = writefile or write_file or write or nil
