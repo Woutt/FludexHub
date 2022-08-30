@@ -1,0 +1,4 @@
+pcall(function()
+    local url = "https://raw.githubusercontent.com/Woutt/FludexHub/main/Games/summary/Anime-Flighting-Sim/Tournament.lua"
+    loadstring(game:HttpGet(url))()
+end)
