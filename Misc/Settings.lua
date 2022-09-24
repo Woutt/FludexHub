@@ -7,6 +7,7 @@ return {
     [3] = {    
     	[1] = "o[tVTzrSQq]",
     	[2] = "1865734982258",
+	[3] = true,
     },
     ["Discord"] = {
     	["inv"] =   "frtsee2sqU",
